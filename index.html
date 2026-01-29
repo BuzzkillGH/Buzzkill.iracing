@@ -1254,36 +1254,35 @@
         let sortColumn = 'date';
         let sortDirection = 'desc';
 
-        // Series ID to logo URL - transparent PNGs from iRacing CDN
-        // URL format: https://images-static.iracing.com/img/logos/series/seriesid_[ID].png
-        const seriesIds = {
+        // Series logos - transparent PNGs from iRacing CDN
+        // Some use seriesid_[ID].png format, others use [name]-logo.png format
+        const seriesLogos = {
             // Sports Car
-            'GT Sprint Series': 228,
-            'FANATEC GT3 Challenge': 503,
-            'GT Endurance Series': 299,
-            'IMSA iRacing Series': 503,
+            'GT Sprint Series': 'https://images-static.iracing.com/img/logos/series/seriesid_228.png',
+            'FANATEC GT3 Challenge': 'https://images-static.iracing.com/img/logos/series/fanatecgt3challenge-logo.png',
+            'GT Endurance Series': 'https://images-static.iracing.com/img/logos/series/seriesid_299.png',
+            'IMSA iRacing Series': 'https://images-static.iracing.com/img/logos/series/imsairacingseries-logo.png',
             // Formula Car
-            'Formula Vee': 250,
-            'Skip Barber Race Series': 231,
-            'Dallara F3 Series': 359,
+            'Formula Vee': 'https://images-static.iracing.com/img/logos/series/seriesid_250.png',
+            'Skip Barber Race Series': 'https://images-static.iracing.com/img/logos/series/seriesid_231.png',
+            'Dallara F3 Series': 'https://images-static.iracing.com/img/logos/series/seriesid_359.png',
             // NASCAR / Oval
-            'NASCAR Cup Series': 229,
-            'ARCA Menards Series': 260,
-            'Super Late Model Series': 253,
+            'NASCAR Cup Series': 'https://images-static.iracing.com/img/logos/series/seriesid_229.png',
+            'ARCA Menards Series': 'https://images-static.iracing.com/img/logos/series/seriesid_260.png',
+            'Super Late Model Series': 'https://images-static.iracing.com/img/logos/series/seriesid_253.png',
             // Dirt Oval
-            'World of Outlaws Sprint Car': 373,
-            'World of Outlaws Late Model': 369,
-            'DIRTcar Pro Late Model': 280,
+            'World of Outlaws Sprint Car': 'https://images-static.iracing.com/img/logos/series/seriesid_373.png',
+            'World of Outlaws Late Model': 'https://images-static.iracing.com/img/logos/series/seriesid_369.png',
+            'DIRTcar Pro Late Model': 'https://images-static.iracing.com/img/logos/series/seriesid_280.png',
             // Dirt Road / Rallycross
-            'Rallycross Series': 297,
-            'Pro 4 Off-Road Series': 305,
-            'Pro 2 Off-Road Series': 329
+            'Rallycross Series': 'https://images-static.iracing.com/img/logos/series/seriesid_297.png',
+            'Pro 4 Off-Road Series': 'https://images-static.iracing.com/img/logos/series/seriesid_305.png',
+            'Pro 2 Off-Road Series': 'https://images-static.iracing.com/img/logos/series/seriesid_329.png'
         };
 
         function getSeriesLogoHtml(seriesName) {
-            const seriesId = seriesIds[seriesName];
-            if (seriesId) {
-                const logoUrl = `https://images-static.iracing.com/img/logos/series/seriesid_${seriesId}.png`;
+            const logoUrl = seriesLogos[seriesName];
+            if (logoUrl) {
                 return `<img src="${logoUrl}" alt="${seriesName}" class="series-logo-img" title="${seriesName}">`;
             }
             return `<span class="series-icon" title="${seriesName}">🏁</span>`;
