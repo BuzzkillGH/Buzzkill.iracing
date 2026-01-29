@@ -643,6 +643,12 @@
 
         .country-flag { font-size: 18px; }
         .car-logo { font-size: 16px; }
+        .car-logo-img {
+            height: 20px;
+            width: auto;
+            vertical-align: middle;
+            object-fit: contain;
+        }
 
         .best-lap-time {
             color: #a855f7;
@@ -1217,12 +1223,42 @@
             'IT': 'Italy', 'ES': 'Spain', 'NL': 'Netherlands', 'BE': 'Belgium', 'CA': 'Canada'
         };
 
-        const carLogos = {
-            'BMW M4 GT3': '🔵',
-            'Porsche 911 GT3 R': '🟡',
-            'Audi R8 LMS': '🔴',
-            'Mercedes AMG GT3': '⚫'
+        // Car manufacturer logo URLs (from StickPNG - personal use)
+        const carManufacturerLogos = {
+            'BMW': 'https://assets.stickpng.com/images/580b57fcd9996e24bc43c46e.png',
+            'Porsche': 'https://assets.stickpng.com/images/580b57fcd9996e24bc43c499.png',
+            'Audi': 'https://assets.stickpng.com/images/580b57fcd9996e24bc43c46b.png',
+            'Mercedes': 'https://assets.stickpng.com/images/580b57fcd9996e24bc43c493.png',
+            'Ferrari': 'https://assets.stickpng.com/images/580b57fcd9996e24bc43c47a.png',
+            'Lamborghini': 'https://assets.stickpng.com/images/580b57fcd9996e24bc43c48c.png',
+            'McLaren': 'https://assets.stickpng.com/images/580b57fcd9996e24bc43c492.png',
+            'Aston Martin': 'https://assets.stickpng.com/images/580b57fcd9996e24bc43c46a.png',
+            'Chevrolet': 'https://assets.stickpng.com/images/580b57fcd9996e24bc43c479.png',
+            'Ford': 'https://assets.stickpng.com/images/580b57fcd9996e24bc43c47c.png'
         };
+
+        // Map car names to manufacturers
+        function getCarManufacturer(carName) {
+            if (carName.includes('BMW')) return 'BMW';
+            if (carName.includes('Porsche')) return 'Porsche';
+            if (carName.includes('Audi')) return 'Audi';
+            if (carName.includes('Mercedes') || carName.includes('AMG')) return 'Mercedes';
+            if (carName.includes('Ferrari')) return 'Ferrari';
+            if (carName.includes('Lamborghini')) return 'Lamborghini';
+            if (carName.includes('McLaren')) return 'McLaren';
+            if (carName.includes('Aston Martin')) return 'Aston Martin';
+            if (carName.includes('Chevrolet') || carName.includes('Corvette')) return 'Chevrolet';
+            if (carName.includes('Ford') || carName.includes('Mustang')) return 'Ford';
+            return null;
+        }
+
+        function getCarLogoHtml(carName) {
+            const manufacturer = getCarManufacturer(carName);
+            if (manufacturer && carManufacturerLogos[manufacturer]) {
+                return `<img src="${carManufacturerLogos[manufacturer]}" alt="${manufacturer}" class="car-logo-img" title="${carName}">`;
+            }
+            return `<span class="car-logo" title="${carName}">🏎️</span>`;
+        }
 
         const trackDatabase = {
             'Watkins Glen': { length: '3.4 miles', corners: 11, layout: 'Boot', description: 'Historic road course in upstate New York, known for high-speed corners and elevation changes.', lengthKm: 5.47 },
@@ -2857,7 +2893,7 @@
                     <td><span class="series-icon">${seriesIcons[r.series] || '🏁'}</span>${r.series}</td>
                     <td>${r.track}</td>
                     <td>${r.layout}</td>
-                    <td>${r.car}</td>
+                    <td>${getCarLogoHtml(r.car)} ${r.car}</td>
                     <td>${r.sof}</td>
                     <td>${r.split} of ${r.totalSplits}</td>
                     <td>P${r.startPosition}</td>
@@ -2924,7 +2960,7 @@
                                     <td>${p.position}</td>
                                     <td>${p.name}</td>
                                     <td><span class="country-flag" title="${countryNames[p.countryCode]}">${countryFlags[p.countryCode]}</span></td>
-                                    <td><span class="car-logo" title="${p.car}">${carLogos[p.car] || '🏎️'}</span></td>
+                                    <td>${getCarLogoHtml(p.car)}</td>
                                     <td>${p.laps}</td>
                                     <td>${p.lapsLed}</td>
                                     <td><span class="${p.bestLapRaw === bestLapTime ? 'best-lap-time' : ''}">${p.bestLap}</span></td>
