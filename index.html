@@ -649,6 +649,17 @@
             vertical-align: middle;
             object-fit: contain;
         }
+        .series-logo-img {
+            height: 24px;
+            width: 40px;
+            object-fit: cover;
+            border-radius: 4px;
+            vertical-align: middle;
+            margin-right: 8px;
+        }
+        .series-icon {
+            margin-right: 6px;
+        }
 
         .best-lap-time {
             color: #a855f7;
@@ -1187,22 +1198,49 @@
         let sortColumn = 'date';
         let sortDirection = 'desc';
 
-        const seriesIcons = {
-            'GT3 Fixed': '🏎️',
-            'GT4 Series': '🏁',
-            'Production Car': '🚗',
-            'Formula Vee': '🏎️',
-            'Formula Renault 2.0': '🏎️',
-            'Formula 3': '🏎️',
-            'NASCAR Cup': '🏁',
-            'ARCA Series': '🏁',
-            'Late Models': '🏁',
-            'Rally Cross': '🚙',
-            'Off Road Buggy': '🚙',
-            'Dirt Sprint Cars': '🏁',
-            'Dirt Late Models': '🏁',
-            'Dirt Modifieds': '🏁'
+        // Series logo URLs from iRacing CDN
+        const seriesLogos = {
+            // Sports Car
+            'GT Sprint Series': 'https://s100.iracing.com/wp-content/uploads/2024/10/gt-sprint-feature.jpg',
+            'FANATEC GT3 Challenge': 'https://s100.iracing.com/wp-content/uploads/2024/10/fanatec-gt3-challenge-feature.jpg',
+            'GT Endurance Series': 'https://s100.iracing.com/wp-content/uploads/2024/10/gt-endurance-feature.jpg',
+            'GT4 Falken Tyre Challenge': 'https://s100.iracing.com/wp-content/uploads/2024/10/falken-gt4-challenge-fixed-feature.jpg',
+            'IMSA iRacing Series': 'https://s100.iracing.com/wp-content/uploads/2024/10/imsa-feature.jpg',
+            'IMSA Endurance Series': 'https://s100.iracing.com/wp-content/uploads/2024/06/imsa-endurance-series-feature.jpg',
+            'Porsche Cup': 'https://s100.iracing.com/wp-content/uploads/2025/12/iracing-porsche-cup-by-conspit-feature.jpg',
+            'Ferrari 296 Challenge': 'https://s100.iracing.com/wp-content/uploads/2020/09/ferrari-296-challenge-feature.jpg',
+            'Production Car Sim-Lab Challenge': 'https://s100.iracing.com/wp-content/uploads/2023/12/production-car-sim-lab-challenge-feature.jpg',
+            'Global Mazda MX-5 Cup': 'https://s100.iracing.com/wp-content/uploads/2023/12/global-mazda-mx5-fanatec-cup-feature.jpg',
+            // Formula Car
+            'Formula Vee': 'https://s100.iracing.com/wp-content/uploads/2024/12/formula-vee-series-by-trophi.ai-feature.jpg',
+            'Skip Barber Race Series': 'https://s100.iracing.com/wp-content/uploads/2017/02/OW-Skip-Barber-Race-Series.png',
+            'FIA Formula 4 Challenge': 'https://s100.iracing.com/wp-content/uploads/2025/06/fia-formula-4-challenge-fixed-feature.jpg',
+            'Dallara F3 Series': 'https://s100.iracing.com/wp-content/uploads/2024/12/formula-c-dallara-f3-series-feature.jpg',
+            'Grand Prix Tour': 'https://s100.iracing.com/wp-content/uploads/2024/03/formula-a-grand-prix-tour-feature.jpg',
+            'INDYCAR Series': 'https://s100.iracing.com/wp-content/uploads/2024/01/INDYCAR-Series-Open-feature.jpg',
+            // NASCAR / Oval
+            'NASCAR Cup Series': 'https://s100.iracing.com/wp-content/uploads/2024/10/nascar-cup-series-feature.jpg',
+            'NASCAR Xfinity Series': 'https://s100.iracing.com/wp-content/uploads/2024/10/nascar-xfinity-feature.jpg',
+            'NASCAR Truck Series': 'https://s100.iracing.com/wp-content/uploads/2024/10/nascar-truck-feature.jpg',
+            'ARCA Menards Series': 'https://s100.iracing.com/wp-content/uploads/2025/03/iracing-arca-menards-series-feature.jpg',
+            'Super Late Model Series': 'https://s100.iracing.com/wp-content/uploads/2023/12/super-late-model-fixed-feature.jpg',
+            // Dirt Oval
+            'World of Outlaws Sprint Car': 'https://s100.iracing.com/wp-content/uploads/2020/09/OD-WoO-Sprint-Car-Series.png',
+            'World of Outlaws Late Model': 'https://s100.iracing.com/wp-content/uploads/2020/09/world-of-outlaws-late-model-series.jpg',
+            'DIRTcar Pro Late Model': 'https://s100.iracing.com/wp-content/uploads/2017/05/dirtcarprolatemodelseries-feature.jpg',
+            'DIRTcar 360 Sprint Car': 'https://s100.iracing.com/wp-content/uploads/2024/06/dirtcar-360-sprint-car-series-feature.jpg',
+            // Dirt Road / Rallycross
+            'Rallycross Series': 'https://s100.iracing.com/wp-content/uploads/2025/09/rallycross-series-by-trak-racer-feature.jpg',
+            'Pro 4 Off-Road Series': 'https://s100.iracing.com/wp-content/uploads/2022/12/pro4offroadracingseries-feature.jpg',
+            'Pro 2 Off-Road Series': 'https://s100.iracing.com/wp-content/uploads/2021/06/pro2offroadracingseries-feature.jpg'
         };
+
+        function getSeriesLogoHtml(seriesName) {
+            if (seriesLogos[seriesName]) {
+                return `<img src="${seriesLogos[seriesName]}" alt="${seriesName}" class="series-logo-img" title="${seriesName}">`;
+            }
+            return `<span class="series-icon" title="${seriesName}">🏁</span>`;
+        }
 
         const trackLayouts = {
             'Watkins Glen': 'Boot',
@@ -1360,11 +1398,11 @@
         function generateDemoData() {
             const tracks = ['Watkins Glen', 'Road Atlanta', 'Spa', 'Suzuka', 'Nürburgring', 'Silverstone'];
             const series = {
-                'Sports Car': ['GT3 Fixed', 'GT4 Series', 'Production Car'],
-                'Formula Car': ['Formula Vee', 'Formula Renault 2.0', 'Formula 3'],
-                'Oval': ['NASCAR Cup', 'ARCA Series', 'Late Models'],
-                'Dirt Road': ['Rally Cross', 'Off Road Buggy'],
-                'Dirt Oval': ['Dirt Sprint Cars', 'Dirt Late Models', 'Dirt Modifieds']
+                'Sports Car': ['GT Sprint Series', 'FANATEC GT3 Challenge', 'IMSA iRacing Series'],
+                'Formula Car': ['Formula Vee', 'Skip Barber Race Series', 'Dallara F3 Series'],
+                'Oval': ['NASCAR Cup Series', 'ARCA Menards Series', 'Super Late Model Series'],
+                'Dirt Road': ['Rallycross Series', 'Pro 4 Off-Road Series'],
+                'Dirt Oval': ['World of Outlaws Sprint Car', 'World of Outlaws Late Model', 'DIRTcar Pro Late Model']
             };
             const cars = ['BMW M4 GT3', 'Porsche 911 GT3 R', 'Audi R8 LMS'];
             const data = [];
@@ -2890,7 +2928,7 @@
                     <td>${dateStr}</td>
                     <td>${r.season}</td>
                     <td>${r.week}</td>
-                    <td><span class="series-icon">${seriesIcons[r.series] || '🏁'}</span>${r.series}</td>
+                    <td>${getSeriesLogoHtml(r.series)}${r.series}</td>
                     <td>${r.track}</td>
                     <td>${r.layout}</td>
                     <td>${getCarLogoHtml(r.car)} ${r.car}</td>
