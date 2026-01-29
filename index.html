@@ -95,23 +95,65 @@
         .license-bar-container {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 15px;
+        }
+
+        /* iRacing-style License Badge */
+        .license-badge {
+            width: 52px;
+            height: 60px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .license-badge-shape {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .license-badge-inner {
+            width: 85%;
+            height: 85%;
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.3);
         }
 
         .license-letter {
-            font-size: 32px;
-            font-weight: 700;
-            width: 45px;
-            text-align: center;
+            font-size: 28px;
+            font-weight: 800;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+            z-index: 1;
+            position: relative;
         }
+
+        /* License colors */
+        .license-badge.license-R .license-badge-shape { background: linear-gradient(180deg, #ff6b6b 0%, #dc2626 100%); }
+        .license-badge.license-D .license-badge-shape { background: linear-gradient(180deg, #fb923c 0%, #ea580c 100%); }
+        .license-badge.license-C .license-badge-shape { background: linear-gradient(180deg, #fbbf24 0%, #ca8a04 100%); }
+        .license-badge.license-B .license-badge-shape { background: linear-gradient(180deg, #4ade80 0%, #16a34a 100%); }
+        .license-badge.license-A .license-badge-shape { background: linear-gradient(180deg, #60a5fa 0%, #2563eb 100%); }
+        .license-badge.license-P .license-badge-shape { background: linear-gradient(180deg, #c084fc 0%, #9333ea 100%); }
 
         .license-bar-wrapper { flex: 1; }
 
         .license-bar-bg {
             background: rgba(255, 255, 255, 0.1);
             border-radius: 6px;
-            height: 24px;
+            height: 28px;
             overflow: hidden;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
         }
 
         .license-bar-fill {
@@ -120,10 +162,12 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 12px;
-            font-weight: 600;
+            font-size: 13px;
+            font-weight: 700;
             color: white;
-            min-width: 50px;
+            min-width: 55px;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
         }
 
         .license-stat-row {
@@ -1801,7 +1845,13 @@
                         <h3>${cat}</h3>
                         <div class="license-info">
                             <div class="license-bar-container">
-                                <div class="license-letter" style="color: ${colors.letter}">${data.license}</div>
+                                <div class="license-badge license-${data.license}">
+                                    <div class="license-badge-shape">
+                                        <div class="license-badge-inner">
+                                            <span class="license-letter">${data.license}</span>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="license-bar-wrapper">
                                     <div class="license-bar-bg">
                                         <div class="license-bar-fill" style="width: ${srProgress}%; background: ${colors.bg};">
@@ -1812,7 +1862,7 @@
                             </div>
                             <div class="license-stat-row">
                                 <span class="license-stat-label">iRating</span>
-                                <span class="license-stat-value">${data.iRating}</span>
+                                <span class="license-stat-value">${data.iRating.toLocaleString()}</span>
                             </div>
                             <div class="license-stat-row">
                                 <span class="license-stat-label">Safety Rating</span>
