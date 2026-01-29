@@ -741,6 +741,18 @@
             align-items: center;
             justify-content: center;
             color: #a0a0a0;
+            overflow: hidden;
+        }
+
+        .track-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 12px;
+        }
+
+        .track-image-placeholder {
+            text-align: center;
         }
 
         /* Responsive */
@@ -1343,12 +1355,36 @@
         }
 
         const trackDatabase = {
-            'Watkins Glen': { length: '3.4 miles', corners: 11, layout: 'Boot', description: 'Historic road course in upstate New York, known for high-speed corners and elevation changes.', lengthKm: 5.47 },
-            'Road Atlanta': { length: '2.54 miles', corners: 12, layout: 'Full Course', description: 'Challenging road course featuring the famous Turn 12 downhill section.', lengthKm: 4.09 },
-            'Spa': { length: '4.35 miles', corners: 19, layout: 'Grand Prix', description: 'One of the most iconic circuits in motorsport, featuring Eau Rouge and Blanchimont.', lengthKm: 7.00 },
-            'Suzuka': { length: '3.61 miles', corners: 18, layout: 'Grand Prix', description: 'Figure-eight layout with technical corners and fast sections.', lengthKm: 5.81 },
-            'Nürburgring': { length: '3.2 miles', corners: 15, layout: 'GP-Strecke', description: 'Modern F1 circuit adjacent to the famous Nordschleife.', lengthKm: 5.15 },
-            'Silverstone': { length: '3.66 miles', corners: 18, layout: 'Grand Prix', description: 'Home of British motorsport with fast, flowing corners.', lengthKm: 5.89 }
+            'Watkins Glen': {
+                length: '3.4 miles', corners: 11, layout: 'Boot', lengthKm: 5.47,
+                description: 'Historic road course in upstate New York, known for high-speed corners and elevation changes.',
+                image: 'https://s100.iracing.com/wp-content/uploads/2025/09/watkinsglen-feature-350x197.jpg'
+            },
+            'Road Atlanta': {
+                length: '2.54 miles', corners: 12, layout: 'Full Course', lengthKm: 4.09,
+                description: 'Challenging road course featuring the famous Turn 12 downhill section.',
+                image: 'https://s100.iracing.com/wp-content/uploads/2012/10/update_RoadAtlanta-350x197.jpg'
+            },
+            'Spa': {
+                length: '4.35 miles', corners: 19, layout: 'Grand Prix', lengthKm: 7.00,
+                description: 'One of the most iconic circuits in motorsport, featuring Eau Rouge and Blanchimont.',
+                image: 'https://s100.iracing.com/wp-content/uploads/2024/09/circuitdespa-francorchamps-feature-350x197.jpg'
+            },
+            'Suzuka': {
+                length: '3.61 miles', corners: 18, layout: 'Grand Prix', lengthKm: 5.81,
+                description: 'Figure-eight layout with technical corners and fast sections.',
+                image: 'https://s100.iracing.com/wp-content/uploads/2024/04/suzukainternationracingcourse-feature-350x197.jpg'
+            },
+            'Nürburgring': {
+                length: '3.2 miles', corners: 15, layout: 'GP-Strecke', lengthKm: 5.15,
+                description: 'Modern F1 circuit adjacent to the famous Nordschleife.',
+                image: 'https://s100.iracing.com/wp-content/uploads/2015/12/GP-Tile-NEW1.jpg'
+            },
+            'Silverstone': {
+                length: '3.66 miles', corners: 18, layout: 'Grand Prix', lengthKm: 5.89,
+                description: 'Home of British motorsport with fast, flowing corners.',
+                image: 'https://s100.iracing.com/wp-content/uploads/2019/06/Silverstone-350x197.jpg'
+            }
         };
 
         // ============================================================================
@@ -3095,7 +3131,19 @@
         }
 
         function showTrack(trackName) {
-            const track = trackDatabase[trackName] || { length: 'Unknown', corners: 0, layout: 'Standard', description: 'No information available.' };
+            const track = trackDatabase[trackName] || {
+                length: 'Unknown', corners: 0, layout: 'Standard',
+                description: 'No information available.',
+                image: null
+            };
+
+            const trackImage = track.image
+                ? `<img src="${track.image}" alt="${trackName}" class="track-image">`
+                : `<div class="track-image-placeholder">
+                       <div style="font-size: 60px; margin-bottom: 10px;">🏁</div>
+                       <div>Track Image</div>
+                       <div style="font-size: 12px; color: #666; margin-top: 8px;">Coming soon</div>
+                   </div>`;
 
             const html = `
                 <div class="track-info">
@@ -3111,11 +3159,7 @@
                     </div>
                     <div>
                         <div class="track-map">
-                            <div style="text-align: center;">
-                                <div style="font-size: 60px; margin-bottom: 10px;">🏁</div>
-                                <div>Track Map</div>
-                                <div style="font-size: 12px; color: #666; margin-top: 8px;">Visualization coming soon</div>
-                            </div>
+                            ${trackImage}
                         </div>
                     </div>
                 </div>
