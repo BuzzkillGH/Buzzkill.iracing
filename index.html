@@ -694,10 +694,10 @@
             object-fit: contain;
         }
         .series-logo-img {
-            height: 24px;
-            width: 40px;
-            object-fit: cover;
-            border-radius: 4px;
+            height: 20px;
+            width: auto;
+            max-width: 60px;
+            object-fit: contain;
             vertical-align: middle;
             margin-right: 8px;
         }
@@ -1254,46 +1254,37 @@
         let sortColumn = 'date';
         let sortDirection = 'desc';
 
-        // Series logo URLs from iRacing CDN
-        const seriesLogos = {
+        // Series ID to logo URL - transparent PNGs from iRacing CDN
+        // URL format: https://images-static.iracing.com/img/logos/series/seriesid_[ID].png
+        const seriesIds = {
             // Sports Car
-            'GT Sprint Series': 'https://s100.iracing.com/wp-content/uploads/2024/10/gt-sprint-feature.jpg',
-            'FANATEC GT3 Challenge': 'https://s100.iracing.com/wp-content/uploads/2024/10/fanatec-gt3-challenge-feature.jpg',
-            'GT Endurance Series': 'https://s100.iracing.com/wp-content/uploads/2024/10/gt-endurance-feature.jpg',
-            'GT4 Falken Tyre Challenge': 'https://s100.iracing.com/wp-content/uploads/2024/10/falken-gt4-challenge-fixed-feature.jpg',
-            'IMSA iRacing Series': 'https://s100.iracing.com/wp-content/uploads/2024/10/imsa-feature.jpg',
-            'IMSA Endurance Series': 'https://s100.iracing.com/wp-content/uploads/2024/06/imsa-endurance-series-feature.jpg',
-            'Porsche Cup': 'https://s100.iracing.com/wp-content/uploads/2025/12/iracing-porsche-cup-by-conspit-feature.jpg',
-            'Ferrari 296 Challenge': 'https://s100.iracing.com/wp-content/uploads/2020/09/ferrari-296-challenge-feature.jpg',
-            'Production Car Sim-Lab Challenge': 'https://s100.iracing.com/wp-content/uploads/2023/12/production-car-sim-lab-challenge-feature.jpg',
-            'Global Mazda MX-5 Cup': 'https://s100.iracing.com/wp-content/uploads/2023/12/global-mazda-mx5-fanatec-cup-feature.jpg',
+            'GT Sprint Series': 228,
+            'FANATEC GT3 Challenge': 503,
+            'GT Endurance Series': 299,
+            'IMSA iRacing Series': 503,
             // Formula Car
-            'Formula Vee': 'https://s100.iracing.com/wp-content/uploads/2024/12/formula-vee-series-by-trophi.ai-feature.jpg',
-            'Skip Barber Race Series': 'https://s100.iracing.com/wp-content/uploads/2017/02/OW-Skip-Barber-Race-Series.png',
-            'FIA Formula 4 Challenge': 'https://s100.iracing.com/wp-content/uploads/2025/06/fia-formula-4-challenge-fixed-feature.jpg',
-            'Dallara F3 Series': 'https://s100.iracing.com/wp-content/uploads/2024/12/formula-c-dallara-f3-series-feature.jpg',
-            'Grand Prix Tour': 'https://s100.iracing.com/wp-content/uploads/2024/03/formula-a-grand-prix-tour-feature.jpg',
-            'INDYCAR Series': 'https://s100.iracing.com/wp-content/uploads/2024/01/INDYCAR-Series-Open-feature.jpg',
+            'Formula Vee': 250,
+            'Skip Barber Race Series': 231,
+            'Dallara F3 Series': 359,
             // NASCAR / Oval
-            'NASCAR Cup Series': 'https://s100.iracing.com/wp-content/uploads/2024/10/nascar-cup-series-feature.jpg',
-            'NASCAR Xfinity Series': 'https://s100.iracing.com/wp-content/uploads/2024/10/nascar-xfinity-feature.jpg',
-            'NASCAR Truck Series': 'https://s100.iracing.com/wp-content/uploads/2024/10/nascar-truck-feature.jpg',
-            'ARCA Menards Series': 'https://s100.iracing.com/wp-content/uploads/2025/03/iracing-arca-menards-series-feature.jpg',
-            'Super Late Model Series': 'https://s100.iracing.com/wp-content/uploads/2023/12/super-late-model-fixed-feature.jpg',
+            'NASCAR Cup Series': 229,
+            'ARCA Menards Series': 260,
+            'Super Late Model Series': 253,
             // Dirt Oval
-            'World of Outlaws Sprint Car': 'https://s100.iracing.com/wp-content/uploads/2020/09/OD-WoO-Sprint-Car-Series.png',
-            'World of Outlaws Late Model': 'https://s100.iracing.com/wp-content/uploads/2020/09/world-of-outlaws-late-model-series.jpg',
-            'DIRTcar Pro Late Model': 'https://s100.iracing.com/wp-content/uploads/2017/05/dirtcarprolatemodelseries-feature.jpg',
-            'DIRTcar 360 Sprint Car': 'https://s100.iracing.com/wp-content/uploads/2024/06/dirtcar-360-sprint-car-series-feature.jpg',
+            'World of Outlaws Sprint Car': 373,
+            'World of Outlaws Late Model': 369,
+            'DIRTcar Pro Late Model': 280,
             // Dirt Road / Rallycross
-            'Rallycross Series': 'https://s100.iracing.com/wp-content/uploads/2025/09/rallycross-series-by-trak-racer-feature.jpg',
-            'Pro 4 Off-Road Series': 'https://s100.iracing.com/wp-content/uploads/2022/12/pro4offroadracingseries-feature.jpg',
-            'Pro 2 Off-Road Series': 'https://s100.iracing.com/wp-content/uploads/2021/06/pro2offroadracingseries-feature.jpg'
+            'Rallycross Series': 297,
+            'Pro 4 Off-Road Series': 305,
+            'Pro 2 Off-Road Series': 329
         };
 
         function getSeriesLogoHtml(seriesName) {
-            if (seriesLogos[seriesName]) {
-                return `<img src="${seriesLogos[seriesName]}" alt="${seriesName}" class="series-logo-img" title="${seriesName}">`;
+            const seriesId = seriesIds[seriesName];
+            if (seriesId) {
+                const logoUrl = `https://images-static.iracing.com/img/logos/series/seriesid_${seriesId}.png`;
+                return `<img src="${logoUrl}" alt="${seriesName}" class="series-logo-img" title="${seriesName}">`;
             }
             return `<span class="series-icon" title="${seriesName}">🏁</span>`;
         }
@@ -1317,32 +1308,63 @@
             'IT': 'Italy', 'ES': 'Spain', 'NL': 'Netherlands', 'BE': 'Belgium', 'CA': 'Canada'
         };
 
-        // Car manufacturer logo URLs (from StickPNG - personal use)
+        // Car manufacturer logo URLs (from GitHub - bo2-official-overlays)
+        const carLogoBaseUrl = 'https://raw.githubusercontent.com/fixfactory/bo2-official-overlays/main/Images/CarLogos/';
         const carManufacturerLogos = {
-            'BMW': 'https://assets.stickpng.com/images/580b57fcd9996e24bc43c46e.png',
-            'Porsche': 'https://assets.stickpng.com/images/580b57fcd9996e24bc43c499.png',
-            'Audi': 'https://assets.stickpng.com/images/580b57fcd9996e24bc43c46b.png',
-            'Mercedes': 'https://assets.stickpng.com/images/580b57fcd9996e24bc43c493.png',
-            'Ferrari': 'https://assets.stickpng.com/images/580b57fcd9996e24bc43c47a.png',
-            'Lamborghini': 'https://assets.stickpng.com/images/580b57fcd9996e24bc43c48c.png',
-            'McLaren': 'https://assets.stickpng.com/images/580b57fcd9996e24bc43c492.png',
-            'Aston Martin': 'https://assets.stickpng.com/images/580b57fcd9996e24bc43c46a.png',
-            'Chevrolet': 'https://assets.stickpng.com/images/580b57fcd9996e24bc43c479.png',
-            'Ford': 'https://assets.stickpng.com/images/580b57fcd9996e24bc43c47c.png'
+            'Acura': carLogoBaseUrl + 'Acura.png',
+            'Alpine': carLogoBaseUrl + 'Alpine.png',
+            'Aston Martin': carLogoBaseUrl + 'Aston.png',
+            'Audi': carLogoBaseUrl + 'Audi.png',
+            'Bentley': carLogoBaseUrl + 'Bentley.png',
+            'BMW': carLogoBaseUrl + 'BMW.png',
+            'Cadillac': carLogoBaseUrl + 'Cadillac.png',
+            'Chevrolet': carLogoBaseUrl + 'Chevrolet.png',
+            'Dallara': carLogoBaseUrl + 'Dallara.png',
+            'Ferrari': carLogoBaseUrl + 'Ferrari.png',
+            'Ford': carLogoBaseUrl + 'Ford.png',
+            'Honda': carLogoBaseUrl + 'Honda.png',
+            'Hyundai': carLogoBaseUrl + 'Hyundai.png',
+            'Lamborghini': carLogoBaseUrl + 'Lamborghini.png',
+            'Ligier': carLogoBaseUrl + 'Ligier.png',
+            'Lotus': carLogoBaseUrl + 'Lotus.png',
+            'Mazda': carLogoBaseUrl + 'Mazda.png',
+            'McLaren': carLogoBaseUrl + 'Mclaren.png',
+            'Mercedes': carLogoBaseUrl + 'Mercedes.png',
+            'Nissan': carLogoBaseUrl + 'Nissan.png',
+            'Porsche': carLogoBaseUrl + 'Porsche.png',
+            'Radical': carLogoBaseUrl + 'Radical.png',
+            'Renault': carLogoBaseUrl + 'Renault.png',
+            'Toyota': carLogoBaseUrl + 'Toyota.png',
+            'Volkswagen': carLogoBaseUrl + 'Volkswagen.png'
         };
 
         // Map car names to manufacturers
         function getCarManufacturer(carName) {
-            if (carName.includes('BMW')) return 'BMW';
-            if (carName.includes('Porsche')) return 'Porsche';
-            if (carName.includes('Audi')) return 'Audi';
-            if (carName.includes('Mercedes') || carName.includes('AMG')) return 'Mercedes';
-            if (carName.includes('Ferrari')) return 'Ferrari';
-            if (carName.includes('Lamborghini')) return 'Lamborghini';
-            if (carName.includes('McLaren')) return 'McLaren';
+            if (carName.includes('Acura')) return 'Acura';
+            if (carName.includes('Alpine')) return 'Alpine';
             if (carName.includes('Aston Martin')) return 'Aston Martin';
-            if (carName.includes('Chevrolet') || carName.includes('Corvette')) return 'Chevrolet';
+            if (carName.includes('Audi')) return 'Audi';
+            if (carName.includes('Bentley')) return 'Bentley';
+            if (carName.includes('BMW')) return 'BMW';
+            if (carName.includes('Cadillac')) return 'Cadillac';
+            if (carName.includes('Chevrolet') || carName.includes('Corvette') || carName.includes('Camaro')) return 'Chevrolet';
+            if (carName.includes('Dallara')) return 'Dallara';
+            if (carName.includes('Ferrari')) return 'Ferrari';
             if (carName.includes('Ford') || carName.includes('Mustang')) return 'Ford';
+            if (carName.includes('Honda')) return 'Honda';
+            if (carName.includes('Hyundai')) return 'Hyundai';
+            if (carName.includes('Lamborghini')) return 'Lamborghini';
+            if (carName.includes('Ligier')) return 'Ligier';
+            if (carName.includes('Lotus')) return 'Lotus';
+            if (carName.includes('Mazda') || carName.includes('MX-5')) return 'Mazda';
+            if (carName.includes('McLaren')) return 'McLaren';
+            if (carName.includes('Mercedes') || carName.includes('AMG')) return 'Mercedes';
+            if (carName.includes('Nissan')) return 'Nissan';
+            if (carName.includes('Porsche')) return 'Porsche';
+            if (carName.includes('Radical')) return 'Radical';
+            if (carName.includes('Renault') || carName.includes('Clio')) return 'Renault';
+            if (carName.includes('Toyota') || carName.includes('GR86') || carName.includes('Supra')) return 'Toyota';
+            if (carName.includes('Volkswagen') || carName.includes('VW')) return 'Volkswagen';
             return null;
         }
 
