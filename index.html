@@ -765,12 +765,25 @@
             margin-bottom: 15px;
         }
 
-        .track-detailed-map {
+        .track-detailed-container {
+            position: relative;
             width: 100%;
-            max-width: 100%;
             border-radius: 12px;
             background: rgba(255, 255, 255, 0.05);
             padding: 15px;
+        }
+
+        .track-detailed-base {
+            width: 100%;
+            display: block;
+        }
+
+        .track-detailed-overlay {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            width: calc(100% - 30px);
+            pointer-events: none;
         }
 
         .track-modal-logo {
@@ -3204,10 +3217,14 @@
                        <div style="font-size: 12px; color: #666; margin-top: 8px;">Coming soon</div>
                    </div>`;
 
-            const detailedMap = track.detailedMap
+            // Detailed map overlays turns.svg on top of active.svg
+            const detailedMap = (track.overviewMap && track.detailedMap)
                 ? `<div class="track-detailed-section">
                        <h3>Detailed Track Map</h3>
-                       <img src="${track.detailedMap}" alt="${trackName} Detailed Map" class="track-detailed-map">
+                       <div class="track-detailed-container">
+                           <img src="${track.overviewMap}" alt="${trackName} Track" class="track-detailed-base">
+                           <img src="${track.detailedMap}" alt="${trackName} Turns" class="track-detailed-overlay">
+                       </div>
                    </div>`
                 : '';
 
