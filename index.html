@@ -769,21 +769,25 @@
             position: relative;
             width: 100%;
             border-radius: 12px;
-            background: rgba(255, 255, 255, 0.05);
+            background: #1a1a2e;
             padding: 15px;
         }
 
-        .track-detailed-base {
-            width: 100%;
-            display: block;
-        }
-
-        .track-detailed-overlay {
+        .track-layer {
             position: absolute;
             top: 15px;
             left: 15px;
             width: calc(100% - 30px);
+            height: auto;
             pointer-events: none;
+        }
+
+        .track-layer-base {
+            position: relative;
+            top: 0;
+            left: 0;
+            width: 100%;
+            display: block;
         }
 
         .track-modal-logo {
@@ -1419,42 +1423,42 @@
                 description: 'Historic road course in upstate New York, known for high-speed corners and elevation changes.',
                 logo: 'https://images-static.iracing.com/img/logos/tracks/56__dark.png',
                 overviewMap: 'https://members-assets.iracing.com/public/track-maps/tracks_watkinsglen/435-watkinsglen-2021-fullnoloop/active.svg',
-                detailedMap: 'https://members-assets.iracing.com/public/track-maps/tracks_watkinsglen/435-watkinsglen-2021-fullnoloop/turns.svg'
+                mapBasePath: 'https://members-assets.iracing.com/public/track-maps/tracks_watkinsglen/435-watkinsglen-2021-fullnoloop'
             },
             'Road Atlanta': {
                 length: '2.54 miles', corners: 12, layout: 'Full Course', lengthKm: 4.09,
                 description: 'Challenging road course featuring the famous Turn 12 downhill section.',
                 logo: 'https://images-static.iracing.com/img/logos/tracks/46__dark.png',
                 overviewMap: 'https://members-assets.iracing.com/public/track-maps/tracks_roadatlanta/127-roadatlanta-full/active.svg',
-                detailedMap: 'https://members-assets.iracing.com/public/track-maps/tracks_roadatlanta/127-roadatlanta-full/turns.svg'
+                mapBasePath: 'https://members-assets.iracing.com/public/track-maps/tracks_roadatlanta/127-roadatlanta-full'
             },
             'Spa': {
                 length: '4.35 miles', corners: 19, layout: 'Grand Prix', lengthKm: 7.00,
                 description: 'One of the most iconic circuits in motorsport, featuring Eau Rouge and Blanchimont.',
                 logo: 'https://images-static.iracing.com/img/logos/tracks/132__dark.png',
                 overviewMap: 'https://members-assets.iracing.com/public/track-maps/tracks_spa/525-spa-2024-combined/active.svg',
-                detailedMap: 'https://members-assets.iracing.com/public/track-maps/tracks_spa/525-spa-2024-combined/turns.svg'
+                mapBasePath: 'https://members-assets.iracing.com/public/track-maps/tracks_spa/525-spa-2024-combined'
             },
             'Suzuka': {
                 length: '3.61 miles', corners: 18, layout: 'Grand Prix', lengthKm: 5.81,
                 description: 'Figure-eight layout with technical corners and fast sections.',
                 logo: 'https://images-static.iracing.com/img/logos/tracks/168__dark.png',
                 overviewMap: 'https://members-assets.iracing.com/public/track-maps/tracks_suzuka/168-suzuka-grandprix/active.svg',
-                detailedMap: 'https://members-assets.iracing.com/public/track-maps/tracks_suzuka/168-suzuka-grandprix/turns.svg'
+                mapBasePath: 'https://members-assets.iracing.com/public/track-maps/tracks_suzuka/168-suzuka-grandprix'
             },
             'Nürburgring': {
                 length: '3.2 miles', corners: 15, layout: 'GP-Strecke', lengthKm: 5.15,
                 description: 'Modern F1 circuit adjacent to the famous Nordschleife.',
                 logo: 'https://images-static.iracing.com/img/logos/tracks/185__dark.png',
                 overviewMap: 'https://members-assets.iracing.com/public/track-maps/tracks_nurburgring_gp/250-nurburgring-gp/active.svg',
-                detailedMap: 'https://members-assets.iracing.com/public/track-maps/tracks_nurburgring_gp/250-nurburgring-gp/turns.svg'
+                mapBasePath: 'https://members-assets.iracing.com/public/track-maps/tracks_nurburgring_gp/250-nurburgring-gp'
             },
             'Silverstone': {
                 length: '3.66 miles', corners: 18, layout: 'Grand Prix', lengthKm: 5.89,
                 description: 'Home of British motorsport with fast, flowing corners.',
                 logo: 'https://images-static.iracing.com/img/logos/tracks/282__dark.png',
                 overviewMap: 'https://members-assets.iracing.com/public/track-maps/tracks_silverstone_2019/341-silverstone-2019-gp/active.svg',
-                detailedMap: 'https://members-assets.iracing.com/public/track-maps/tracks_silverstone_2019/341-silverstone-2019-gp/turns.svg'
+                mapBasePath: 'https://members-assets.iracing.com/public/track-maps/tracks_silverstone_2019/341-silverstone-2019-gp'
             }
         };
 
@@ -3217,13 +3221,17 @@
                        <div style="font-size: 12px; color: #666; margin-top: 8px;">Coming soon</div>
                    </div>`;
 
-            // Detailed map overlays turns.svg on top of active.svg
-            const detailedMap = (track.overviewMap && track.detailedMap)
+            // Detailed map layers multiple SVGs on top of each other
+            const detailedMap = track.mapBasePath
                 ? `<div class="track-detailed-section">
                        <h3>Detailed Track Map</h3>
                        <div class="track-detailed-container">
-                           <img src="${track.overviewMap}" alt="${trackName} Track" class="track-detailed-base">
-                           <img src="${track.detailedMap}" alt="${trackName} Turns" class="track-detailed-overlay">
+                           <img src="${track.mapBasePath}/background.svg" alt="" class="track-layer track-layer-base">
+                           <img src="${track.mapBasePath}/inactive.svg" alt="" class="track-layer">
+                           <img src="${track.mapBasePath}/active.svg" alt="" class="track-layer">
+                           <img src="${track.mapBasePath}/pitroad.svg" alt="" class="track-layer">
+                           <img src="${track.mapBasePath}/start-finish.svg" alt="" class="track-layer">
+                           <img src="${track.mapBasePath}/turns.svg" alt="${trackName} Turns" class="track-layer">
                        </div>
                    </div>`
                 : '';
