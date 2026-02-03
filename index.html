@@ -773,6 +773,13 @@
             padding: 15px;
         }
 
+        .track-modal-logo {
+            height: 28px;
+            width: auto;
+            vertical-align: middle;
+            margin-right: 12px;
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             header {
@@ -1242,7 +1249,7 @@
     <div id="trackModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h2 id="trackModalTitle">Track Information</h2>
+                <h2 id="trackModalTitle"><img id="trackModalLogo" class="track-modal-logo" src="" alt=""> <span id="trackModalName">Track Information</span></h2>
                 <button class="close-btn" id="closeTrackBtn">Close</button>
             </div>
             <div id="trackContent"></div>
@@ -1397,38 +1404,44 @@
             'Watkins Glen': {
                 length: '3.4 miles', corners: 11, layout: 'Boot', lengthKm: 5.47,
                 description: 'Historic road course in upstate New York, known for high-speed corners and elevation changes.',
+                logo: 'https://images-static.iracing.com/img/logos/tracks/56__dark.png',
                 overviewMap: 'https://members-assets.iracing.com/public/track-maps/tracks_watkinsglen/435-watkinsglen-2021-fullnoloop/active.svg',
                 detailedMap: 'https://members-assets.iracing.com/public/track-maps/tracks_watkinsglen/435-watkinsglen-2021-fullnoloop/turns.svg'
             },
             'Road Atlanta': {
                 length: '2.54 miles', corners: 12, layout: 'Full Course', lengthKm: 4.09,
                 description: 'Challenging road course featuring the famous Turn 12 downhill section.',
+                logo: 'https://images-static.iracing.com/img/logos/tracks/46__dark.png',
                 overviewMap: 'https://members-assets.iracing.com/public/track-maps/tracks_roadatlanta/127-roadatlanta-full/active.svg',
                 detailedMap: 'https://members-assets.iracing.com/public/track-maps/tracks_roadatlanta/127-roadatlanta-full/turns.svg'
             },
             'Spa': {
                 length: '4.35 miles', corners: 19, layout: 'Grand Prix', lengthKm: 7.00,
                 description: 'One of the most iconic circuits in motorsport, featuring Eau Rouge and Blanchimont.',
+                logo: 'https://images-static.iracing.com/img/logos/tracks/132__dark.png',
                 overviewMap: 'https://members-assets.iracing.com/public/track-maps/tracks_spa/525-spa-2024-combined/active.svg',
                 detailedMap: 'https://members-assets.iracing.com/public/track-maps/tracks_spa/525-spa-2024-combined/turns.svg'
             },
             'Suzuka': {
                 length: '3.61 miles', corners: 18, layout: 'Grand Prix', lengthKm: 5.81,
                 description: 'Figure-eight layout with technical corners and fast sections.',
-                overviewMap: null,  // TODO: Add track map URL
-                detailedMap: null
+                logo: 'https://images-static.iracing.com/img/logos/tracks/168__dark.png',
+                overviewMap: 'https://members-assets.iracing.com/public/track-maps/tracks_suzuka/168-suzuka-grandprix/active.svg',
+                detailedMap: 'https://members-assets.iracing.com/public/track-maps/tracks_suzuka/168-suzuka-grandprix/turns.svg'
             },
             'Nürburgring': {
                 length: '3.2 miles', corners: 15, layout: 'GP-Strecke', lengthKm: 5.15,
                 description: 'Modern F1 circuit adjacent to the famous Nordschleife.',
-                overviewMap: null,  // TODO: Add track map URL
-                detailedMap: null
+                logo: 'https://images-static.iracing.com/img/logos/tracks/185__dark.png',
+                overviewMap: 'https://members-assets.iracing.com/public/track-maps/tracks_nurburgring_gp/250-nurburgring-gp/active.svg',
+                detailedMap: 'https://members-assets.iracing.com/public/track-maps/tracks_nurburgring_gp/250-nurburgring-gp/turns.svg'
             },
             'Silverstone': {
                 length: '3.66 miles', corners: 18, layout: 'Grand Prix', lengthKm: 5.89,
                 description: 'Home of British motorsport with fast, flowing corners.',
-                overviewMap: null,  // TODO: Add track map URL
-                detailedMap: null
+                logo: 'https://images-static.iracing.com/img/logos/tracks/282__dark.png',
+                overviewMap: 'https://members-assets.iracing.com/public/track-maps/tracks_silverstone_2019/341-silverstone-2019-gp/active.svg',
+                detailedMap: 'https://members-assets.iracing.com/public/track-maps/tracks_silverstone_2019/341-silverstone-2019-gp/turns.svg'
             }
         };
 
@@ -3219,7 +3232,15 @@
                 ${detailedMap}
             `;
 
-            document.getElementById('trackModalTitle').textContent = trackName;
+            // Set track logo and name in header
+            const logoEl = document.getElementById('trackModalLogo');
+            if (track.logo) {
+                logoEl.src = track.logo;
+                logoEl.style.display = 'inline-block';
+            } else {
+                logoEl.style.display = 'none';
+            }
+            document.getElementById('trackModalName').textContent = trackName;
             document.getElementById('trackContent').innerHTML = html;
             document.getElementById('trackModal').style.display = 'block';
         }
