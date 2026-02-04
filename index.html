@@ -106,12 +106,11 @@
             position: absolute;
             width: 100%;
             height: 100%;
-            transform: rotate(-90deg);
         }
 
-        .license-progress-ring circle {
+        .license-progress-ring path {
             fill: none;
-            stroke-width: 4;
+            stroke-width: 5;
             stroke-linecap: round;
         }
 
@@ -1945,24 +1944,27 @@
                 const srDecimal = data.safetyRating % 1;
                 const progressPercent = srDecimal * 100;
 
-                // SVG semi-circle arc calculations
+                // SVG semi-circle arc over the top
+                // Arc from left (9 o'clock) to right (3 o'clock) over the top
                 const radius = 30;
-                const circumference = Math.PI * radius; // Semi-circle = half circumference
-                const strokeDashoffset = circumference - (progressPercent / 100) * circumference;
+                const cx = 35, cy = 35;
+                // Semi-circle path: start at left, arc over top to right
+                const arcPath = `M ${cx - radius} ${cy} A ${radius} ${radius} 0 0 1 ${cx + radius} ${cy}`;
+                const arcLength = Math.PI * radius; // Length of semi-circle
+                const progressLength = (progressPercent / 100) * arcLength;
+                const dashOffset = arcLength - progressLength;
 
                 return `
                     <div class="license-item license-${data.license}">
                         <div class="license-circle-container">
                             <div class="license-circle-bg"></div>
                             <svg class="license-progress-ring" viewBox="0 0 70 70">
-                                <circle class="license-progress-bg" cx="35" cy="35" r="${radius}"
-                                    stroke-dasharray="${circumference}"
-                                    stroke-dashoffset="0"
-                                    transform="rotate(180 35 35)"/>
-                                <circle class="license-progress-bar" cx="35" cy="35" r="${radius}"
-                                    stroke-dasharray="${circumference}"
-                                    stroke-dashoffset="${strokeDashoffset}"
-                                    transform="rotate(180 35 35)"/>
+                                <path class="license-progress-bg" d="${arcPath}"
+                                    stroke-dasharray="${arcLength}"
+                                    stroke-dashoffset="0"/>
+                                <path class="license-progress-bar" d="${arcPath}"
+                                    stroke-dasharray="${arcLength}"
+                                    stroke-dashoffset="${dashOffset}"/>
                             </svg>
                             <div class="license-icon-container">
                                 ${disciplineIcons[cat] || disciplineIcons['Sports Car']}
