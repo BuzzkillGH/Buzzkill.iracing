@@ -19,7 +19,8 @@
       "WebFetch(domain:www.irbg.net)",
       "Bash(curl:*)",
       "WebFetch(domain:github.com)",
-      "WebFetch(domain:www.irstats.net)"
+      "WebFetch(domain:www.irstats.net)",
+      "WebFetch(domain:simracingcockpit.gg)"
     ]
   }
 }
