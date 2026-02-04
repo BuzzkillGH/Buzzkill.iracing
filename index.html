@@ -10,8 +10,8 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-            color: #e4e4e4;
+            background: linear-gradient(135deg, #0E051A 0%, #21024A 100%);
+            color: #F8FBF4;
             min-height: 100vh;
             padding: 0;
             margin: 0;
@@ -24,24 +24,24 @@
         }
 
         /* Header Styles - Now handled by landing page styles */
-        .driver-name { font-size: 20px; font-weight: 600; color: #667eea; }
-        .member-since { color: #a0a0a0; font-size: 14px; }
+        .driver-name { font-size: 20px; font-weight: 600; color: #8F13FD; }
+        .member-since { color: #C2C2C2; font-size: 14px; }
 
         /* Auth Section */
         .auth-section {
             text-align: center;
             padding: 60px 20px;
-            background: #252a4a;
+            background: #21024A;
             border-radius: 16px;
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(143, 19, 253, 0.3);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
         }
 
         .auth-section h2 { margin-bottom: 10px; }
 
         .auth-section button {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
+            background: linear-gradient(135deg, #8F13FD 0%, #460096 100%);
+            color: #F8FBF4;
             border: none;
             padding: 14px 32px;
             border-radius: 8px;
@@ -53,21 +53,21 @@
 
         .auth-section button:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+            box-shadow: 0 6px 20px rgba(143, 19, 253, 0.5);
         }
 
         .loading {
-            color: #667eea;
+            color: #8F13FD;
             font-size: 18px;
         }
 
         /* License Summary */
         .license-summary-wrapper {
-            background: #252a4a;
+            background: #21024A;
             border-radius: 16px;
             padding: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(143, 19, 253, 0.3);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
             margin-bottom: 30px;
         }
 
@@ -78,16 +78,16 @@
         }
 
         .license-card {
-            background: #2d3358;
+            background: #460096;
             border-radius: 12px;
             padding: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(138, 75, 236, 0.3);
         }
 
         .license-card h3 {
             margin-bottom: 15px;
             font-size: 16px;
-            color: #a0a0a0;
+            color: #C2C2C2;
         }
 
         .license-info { display: flex; flex-direction: column; gap: 10px; }
@@ -176,17 +176,17 @@
             font-size: 14px;
         }
 
-        .license-stat-label { color: #a0a0a0; }
+        .license-stat-label { color: #C2C2C2; }
         .license-stat-value { font-weight: 600; }
 
         /* Highlights Section */
         .highlights-section {
             margin-bottom: 30px;
             padding: 20px;
-            background: #252a4a;
+            background: #21024A;
             border-radius: 16px;
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(143, 19, 253, 0.3);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
         }
 
         .highlights-section h2 { margin-bottom: 20px; }
@@ -198,16 +198,16 @@
         }
 
         .highlight-card {
-            background: #2d3358;
+            background: #460096;
             border-radius: 10px;
             padding: 16px;
             text-align: center;
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(138, 75, 236, 0.3);
         }
 
         .highlight-card .position-icon { font-size: 40px; margin-bottom: 8px; }
         .highlight-card .track-name { font-weight: 600; margin-bottom: 6px; }
-        .highlight-card .details { font-size: 12px; color: #a0a0a0; line-height: 1.5; }
+        .highlight-card .details { font-size: 12px; color: #C2C2C2; line-height: 1.5; }
 
         /* Filters */
         .filters {
@@ -216,29 +216,29 @@
             gap: 16px;
             margin-bottom: 30px;
             padding: 20px;
-            background: linear-gradient(135deg, #2d3566 0%, #352d5a 100%);
+            background: linear-gradient(135deg, #460096 0%, #21024A 100%);
             border-radius: 16px;
-            border: 1px solid rgba(102, 126, 234, 0.4);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(143, 19, 253, 0.5);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.08);
         }
 
         .filter-group { display: flex; flex-direction: column; gap: 6px; }
-        .filter-group label { font-size: 12px; color: #a0a0a0; font-weight: 500; }
+        .filter-group label { font-size: 12px; color: #C2C2C2; font-weight: 500; }
 
         .filter-group input,
         .filter-group select {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(14, 5, 26, 0.5);
+            border: 1px solid rgba(138, 75, 236, 0.4);
             border-radius: 6px;
             padding: 10px 12px;
-            color: #e4e4e4;
+            color: #F8FBF4;
             font-size: 14px;
         }
 
         .filter-group input:focus,
         .filter-group select:focus {
             outline: none;
-            border-color: #667eea;
+            border-color: #8F13FD;
         }
 
         /* Multi-select dropdown styles */
@@ -247,11 +247,11 @@
         }
 
         .multi-select-btn {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(14, 5, 26, 0.5);
+            border: 1px solid rgba(138, 75, 236, 0.4);
             border-radius: 6px;
             padding: 10px 12px;
-            color: #e4e4e4;
+            color: #F8FBF4;
             font-size: 14px;
             width: 100%;
             text-align: left;
@@ -262,13 +262,13 @@
         }
 
         .multi-select-btn:hover {
-            border-color: #667eea;
+            border-color: #8F13FD;
         }
 
         .multi-select-btn::after {
             content: '▼';
             font-size: 10px;
-            color: #a0a0a0;
+            color: #C2C2C2;
         }
 
         .multi-select-btn.open::after {
@@ -281,14 +281,14 @@
             top: 100%;
             left: 0;
             right: 0;
-            background: #1a1a2e;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: #0E051A;
+            border: 1px solid rgba(143, 19, 253, 0.4);
             border-radius: 6px;
             margin-top: 4px;
             max-height: 250px;
             overflow-y: auto;
             z-index: 100;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
         }
 
         .multi-select-menu.open {
@@ -305,11 +305,11 @@
         }
 
         .multi-select-item:hover {
-            background: rgba(102, 126, 234, 0.2);
+            background: rgba(143, 19, 253, 0.3);
         }
 
         .multi-select-item.selected {
-            background: rgba(102, 126, 234, 0.3);
+            background: rgba(143, 19, 253, 0.4);
         }
 
         .multi-select-item.disabled {
@@ -325,7 +325,7 @@
         .multi-select-checkbox {
             width: 16px;
             height: 16px;
-            border: 2px solid rgba(255, 255, 255, 0.3);
+            border: 2px solid rgba(138, 75, 236, 0.5);
             border-radius: 3px;
             display: flex;
             align-items: center;
@@ -334,8 +334,8 @@
         }
 
         .multi-select-item.selected .multi-select-checkbox {
-            background: #667eea;
-            border-color: #667eea;
+            background: #8F13FD;
+            border-color: #8F13FD;
         }
 
         .multi-select-item.selected .multi-select-checkbox::after {
@@ -345,8 +345,8 @@
         }
 
         .selected-count {
-            background: #667eea;
-            color: white;
+            background: #8F13FD;
+            color: #F8FBF4;
             padding: 2px 6px;
             border-radius: 10px;
             font-size: 11px;
@@ -360,11 +360,11 @@
 
         /* Stats Section */
         .stats-section {
-            background: #252a4a;
+            background: #21024A;
             border-radius: 16px;
             padding: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(143, 19, 253, 0.3);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
             margin-bottom: 30px;
         }
 
@@ -382,24 +382,24 @@
         }
 
         .stat-card {
-            background: linear-gradient(135deg, #3d4470 0%, #4a3d6e 100%);
+            background: linear-gradient(135deg, #460096 0%, #21024A 100%);
             border-radius: 12px;
             padding: 20px;
-            border: 1px solid rgba(102, 126, 234, 0.35);
+            border: 1px solid rgba(143, 19, 253, 0.4);
             text-align: center;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
             transition: transform 0.2s, box-shadow 0.2s;
         }
 
         .stat-card:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
-            border-color: rgba(102, 126, 234, 0.6);
+            box-shadow: 0 6px 20px rgba(143, 19, 253, 0.5);
+            border-color: rgba(143, 19, 253, 0.7);
         }
 
         .stat-label {
             font-size: 12px;
-            color: #a0a0a0;
+            color: #C2C2C2;
             margin-bottom: 8px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
@@ -416,9 +416,9 @@
             font-weight: 500;
         }
 
-        .stat-change.positive { color: #4ade80; }
+        .stat-change.positive { color: #B5E51D; }
         .stat-change.negative { color: #f87171; }
-        .stat-change.neutral { color: #a0a0a0; }
+        .stat-change.neutral { color: #C2C2C2; }
 
         .tooltip-icon {
             display: inline-block;
@@ -426,8 +426,8 @@
             height: 14px;
             line-height: 14px;
             text-align: center;
-            background: rgba(102, 126, 234, 0.3);
-            color: #667eea;
+            background: rgba(143, 19, 253, 0.3);
+            color: #8F13FD;
             border-radius: 50%;
             font-size: 10px;
             cursor: help;
@@ -437,11 +437,11 @@
 
         /* Charts Section */
         .charts-wrapper {
-            background: #252a4a;
+            background: #21024A;
             border-radius: 16px;
             padding: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(143, 19, 253, 0.3);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
             margin-bottom: 30px;
         }
 
@@ -452,19 +452,19 @@
         }
 
         .chart-card {
-            background: #1e2240;
+            background: #0E051A;
             border-radius: 12px;
             padding: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(138, 75, 236, 0.3);
             cursor: pointer;
             transition: transform 0.2s, box-shadow 0.2s;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
         }
 
         .chart-card:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
-            border-color: rgba(102, 126, 234, 0.5);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6);
+            border-color: rgba(143, 19, 253, 0.6);
         }
 
         .chart-title {
@@ -486,19 +486,19 @@
             justify-content: center;
             width: 18px;
             height: 18px;
-            background: rgba(102, 126, 234, 0.3);
-            color: #667eea;
+            background: rgba(143, 19, 253, 0.3);
+            color: #8F13FD;
             border-radius: 50%;
             font-size: 12px;
             font-weight: bold;
             cursor: help;
             margin-left: 8px;
             position: relative;
-            border: 1px solid rgba(102, 126, 234, 0.5);
+            border: 1px solid rgba(143, 19, 253, 0.5);
         }
 
         .chart-info-btn:hover {
-            background: rgba(102, 126, 234, 0.5);
+            background: rgba(143, 19, 253, 0.5);
         }
 
         .chart-info-tooltip {
@@ -507,8 +507,8 @@
             bottom: 100%;
             left: 50%;
             transform: translateX(-50%);
-            background: rgba(0, 0, 0, 0.95);
-            color: white;
+            background: rgba(14, 5, 26, 0.98);
+            color: #F8FBF4;
             padding: 12px 16px;
             border-radius: 8px;
             font-size: 13px;
@@ -516,8 +516,8 @@
             white-space: nowrap;
             z-index: 1000;
             margin-bottom: 8px;
-            border: 1px solid rgba(102, 126, 234, 0.5);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(143, 19, 253, 0.5);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
         }
 
         .chart-info-tooltip::after {
@@ -527,7 +527,7 @@
             left: 50%;
             transform: translateX(-50%);
             border: 6px solid transparent;
-            border-top-color: rgba(0, 0, 0, 0.95);
+            border-top-color: rgba(14, 5, 26, 0.98);
         }
 
         .chart-info-btn:hover .chart-info-tooltip {
@@ -536,11 +536,11 @@
 
         /* Table Section */
         .table-section {
-            background: #252a4a;
+            background: #21024A;
             border-radius: 16px;
             padding: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(143, 19, 253, 0.3);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
             overflow-x: auto;
         }
 
@@ -553,14 +553,14 @@
         th, td {
             padding: 10px 8px;
             text-align: left;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            border-bottom: 1px solid rgba(138, 75, 236, 0.2);
             white-space: nowrap;
         }
 
         th {
-            background: #2d3358;
+            background: #460096;
             font-weight: 600;
-            color: #b0b0b0;
+            color: #C2C2C2;
             text-transform: uppercase;
             font-size: 10px;
             letter-spacing: 0.5px;
@@ -573,7 +573,7 @@
         }
 
         th.sortable:hover {
-            color: #667eea;
+            color: #B5E51D;
         }
 
         th.sortable::after {
@@ -584,17 +584,17 @@
         th.sorted-asc::after {
             content: ' ↑';
             opacity: 1;
-            color: #667eea;
+            color: #B5E51D;
         }
 
         th.sorted-desc::after {
             content: ' ↓';
             opacity: 1;
-            color: #667eea;
+            color: #B5E51D;
         }
 
         tbody tr:hover {
-            background: rgba(255, 255, 255, 0.03);
+            background: rgba(143, 19, 253, 0.1);
         }
 
         .series-icon { margin-right: 4px; }
@@ -607,8 +607,8 @@
 
         .action-links a,
         .action-links button {
-            background: rgba(102, 126, 234, 0.2);
-            color: #667eea;
+            background: rgba(143, 19, 253, 0.3);
+            color: #8A4BEC;
             border: none;
             padding: 3px 6px;
             border-radius: 4px;
@@ -621,7 +621,7 @@
 
         .action-links a:hover,
         .action-links button:hover {
-            background: rgba(102, 126, 234, 0.4);
+            background: rgba(143, 19, 253, 0.5);
         }
 
         /* Modal Styles */
@@ -632,18 +632,18 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.8);
+            background: rgba(14, 5, 26, 0.9);
             z-index: 1000;
             overflow-y: auto;
             padding: 40px 20px;
         }
 
         .modal-content {
-            background: #1a1a2e;
+            background: #0E051A;
             border-radius: 12px;
             max-width: 1200px;
             margin: 0 auto;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(143, 19, 253, 0.4);
             overflow: hidden;
         }
 
@@ -652,7 +652,7 @@
             justify-content: space-between;
             align-items: center;
             padding: 20px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            border-bottom: 1px solid rgba(143, 19, 253, 0.3);
         }
 
         .modal-header h2 { font-size: 20px; }
@@ -706,7 +706,7 @@
         }
 
         .best-lap-time {
-            color: #a855f7;
+            color: #B5E51D;
             font-weight: 700;
         }
 
@@ -727,20 +727,20 @@
             display: flex;
             justify-content: space-between;
             padding: 10px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            border-bottom: 1px solid rgba(143, 19, 253, 0.2);
         }
 
-        .track-detail-item span { color: #a0a0a0; }
-        .track-detail-item strong { color: #e4e4e4; }
+        .track-detail-item span { color: #C2C2C2; }
+        .track-detail-item strong { color: #F8FBF4; }
 
         .track-map {
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(70, 0, 150, 0.3);
             border-radius: 12px;
             min-height: 200px;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #a0a0a0;
+            color: #C2C2C2;
             overflow: hidden;
             padding: 15px;
         }
@@ -769,7 +769,7 @@
             position: relative;
             width: 100%;
             border-radius: 12px;
-            background: #1a1a2e;
+            background: #0E051A;
             padding: 15px;
         }
 
@@ -838,10 +838,10 @@
             transition: all 0.5s ease;
             text-align: center;
             padding: 40px 30px;
-            background: #252a4a;
+            background: #21024A;
             border-radius: 16px;
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(143, 19, 253, 0.4);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
         }
 
         header h1 {
@@ -850,7 +850,7 @@
         }
 
         header p {
-            color: #a0a0a0;
+            color: #C2C2C2;
             font-size: 18px;
         }
 
@@ -899,9 +899,9 @@
         }
 
         .nav-btn {
-            background: linear-gradient(135deg, #3d4470 0%, #4a3d6e 100%);
-            color: #e4e4e4;
-            border: 1px solid rgba(102, 126, 234, 0.4);
+            background: linear-gradient(135deg, #460096 0%, #21024A 100%);
+            color: #F8FBF4;
+            border: 1px solid rgba(143, 19, 253, 0.4);
             padding: 12px 30px;
             border-radius: 8px;
             font-size: 16px;
@@ -911,16 +911,16 @@
         }
 
         .nav-btn:hover {
-            background: linear-gradient(135deg, #4a5080 0%, #5a4a80 100%);
-            border-color: rgba(102, 126, 234, 0.7);
+            background: linear-gradient(135deg, #8A4BEC 0%, #460096 100%);
+            border-color: rgba(143, 19, 253, 0.7);
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.3);
+            box-shadow: 0 6px 20px rgba(143, 19, 253, 0.4);
         }
 
         .nav-btn.active {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-color: rgba(102, 126, 234, 0.8);
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+            background: linear-gradient(135deg, #8F13FD 0%, #460096 100%);
+            border-color: rgba(181, 229, 29, 0.6);
+            box-shadow: 0 4px 15px rgba(143, 19, 253, 0.5);
         }
 
         .page-content {
@@ -944,7 +944,7 @@
             align-items: center;
             margin-bottom: 20px;
             padding-bottom: 15px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            border-bottom: 1px solid rgba(143, 19, 253, 0.3);
         }
 
         .driver-info-header h2 {
@@ -959,12 +959,12 @@
         .driver-details .driver-name {
             font-size: 18px;
             font-weight: 600;
-            color: #667eea;
+            color: #8F13FD;
         }
 
         .driver-details .member-since {
             font-size: 13px;
-            color: #a0a0a0;
+            color: #C2C2C2;
         }
 
         /* Team Stats Page */
@@ -979,7 +979,7 @@
         }
 
         .under-construction p {
-            color: #a0a0a0;
+            color: #C2C2C2;
             font-size: 18px;
         }
 
@@ -2261,8 +2261,8 @@
                     labels: filteredData.map(r => r.date.toLocaleDateString()),
                     datasets: [{
                         data: filteredData.map(r => r.iRating),
-                        borderColor: '#667eea',
-                        backgroundColor: 'rgba(102, 126, 234, 0.1)',
+                        borderColor: '#8F13FD',
+                        backgroundColor: 'rgba(143, 19, 253, 0.15)',
                         tension: 0.4,
                         fill: true
                     }]
@@ -2272,8 +2272,8 @@
                     maintainAspectRatio: false,
                     plugins: { legend: { display: false } },
                     scales: {
-                        y: { grid: { color: 'rgba(255, 255, 255, 0.1)' }, ticks: { color: '#a0a0a0' } },
-                        x: { grid: { color: 'rgba(255, 255, 255, 0.1)' }, ticks: { color: '#a0a0a0', maxTicksLimit: 8 } }
+                        y: { grid: { color: 'rgba(138, 75, 236, 0.2)' }, ticks: { color: '#C2C2C2' } },
+                        x: { grid: { color: 'rgba(138, 75, 236, 0.2)' }, ticks: { color: '#C2C2C2', maxTicksLimit: 8 } }
                     }
                 }
             });
@@ -2287,8 +2287,8 @@
                     labels: filteredData.map(r => r.date.toLocaleDateString()),
                     datasets: [{
                         data: filteredData.map(r => r.safetyRating),
-                        borderColor: '#4ade80',
-                        backgroundColor: 'rgba(74, 222, 128, 0.1)',
+                        borderColor: '#B5E51D',
+                        backgroundColor: 'rgba(181, 229, 29, 0.15)',
                         tension: 0.4,
                         fill: true
                     }]
@@ -2298,8 +2298,8 @@
                     maintainAspectRatio: false,
                     plugins: { legend: { display: false } },
                     scales: {
-                        y: { grid: { color: 'rgba(255, 255, 255, 0.1)' }, ticks: { color: '#a0a0a0' }, min: 0, max: 5 },
-                        x: { grid: { color: 'rgba(255, 255, 255, 0.1)' }, ticks: { color: '#a0a0a0', maxTicksLimit: 8 } }
+                        y: { grid: { color: 'rgba(138, 75, 236, 0.2)' }, ticks: { color: '#C2C2C2' }, min: 0, max: 5 },
+                        x: { grid: { color: 'rgba(138, 75, 236, 0.2)' }, ticks: { color: '#C2C2C2', maxTicksLimit: 8 } }
                     }
                 }
             });
@@ -2326,8 +2326,8 @@
                     maintainAspectRatio: false,
                     plugins: { legend: { display: false } },
                     scales: {
-                        y: { grid: { color: 'rgba(255, 255, 255, 0.1)' }, ticks: { color: '#a0a0a0' } },
-                        x: { grid: { color: 'rgba(255, 255, 255, 0.1)' }, ticks: { color: '#a0a0a0', maxTicksLimit: 8 } }
+                        y: { grid: { color: 'rgba(138, 75, 236, 0.2)' }, ticks: { color: '#C2C2C2' } },
+                        x: { grid: { color: 'rgba(138, 75, 236, 0.2)' }, ticks: { color: '#C2C2C2', maxTicksLimit: 8 } }
                     }
                 }
             });
@@ -2344,8 +2344,8 @@
                     labels: Object.keys(posCounts).sort((a, b) => a - b),
                     datasets: [{
                         data: Object.keys(posCounts).sort((a, b) => a - b).map(k => posCounts[k]),
-                        backgroundColor: 'rgba(102, 126, 234, 0.6)',
-                        borderColor: '#667eea'
+                        backgroundColor: 'rgba(143, 19, 253, 0.6)',
+                        borderColor: '#8F13FD'
                     }]
                 },
                 options: {
@@ -2353,8 +2353,8 @@
                     maintainAspectRatio: false,
                     plugins: { legend: { display: false } },
                     scales: {
-                        y: { grid: { color: 'rgba(255, 255, 255, 0.1)' }, ticks: { color: '#a0a0a0' } },
-                        x: { grid: { color: 'rgba(255, 255, 255, 0.1)' }, ticks: { color: '#a0a0a0' } }
+                        y: { grid: { color: 'rgba(138, 75, 236, 0.2)' }, ticks: { color: '#C2C2C2' } },
+                        x: { grid: { color: 'rgba(138, 75, 236, 0.2)' }, ticks: { color: '#C2C2C2' } }
                     }
                 }
             });
@@ -2371,8 +2371,8 @@
                     labels: Object.keys(startCounts).sort((a, b) => a - b),
                     datasets: [{
                         data: Object.keys(startCounts).sort((a, b) => a - b).map(k => startCounts[k]),
-                        backgroundColor: 'rgba(251, 191, 36, 0.6)',
-                        borderColor: '#fbbf24'
+                        backgroundColor: 'rgba(138, 75, 236, 0.6)',
+                        borderColor: '#8A4BEC'
                     }]
                 },
                 options: {
@@ -2380,8 +2380,8 @@
                     maintainAspectRatio: false,
                     plugins: { legend: { display: false } },
                     scales: {
-                        y: { grid: { color: 'rgba(255, 255, 255, 0.1)' }, ticks: { color: '#a0a0a0' } },
-                        x: { grid: { color: 'rgba(255, 255, 255, 0.1)' }, ticks: { color: '#a0a0a0' } }
+                        y: { grid: { color: 'rgba(138, 75, 236, 0.2)' }, ticks: { color: '#C2C2C2' } },
+                        x: { grid: { color: 'rgba(138, 75, 236, 0.2)' }, ticks: { color: '#C2C2C2' } }
                     }
                 }
             });
@@ -2397,14 +2397,14 @@
                         {
                             label: 'Position',
                             data: filteredData.map(r => r.multiClass ? r.classPosition : r.startPosition),
-                            backgroundColor: 'rgba(251, 191, 36, 0.8)',
-                            borderColor: '#fbbf24'
+                            backgroundColor: 'rgba(138, 75, 236, 0.8)',
+                            borderColor: '#8A4BEC'
                         },
                         {
                             label: 'Remaining Field',
                             data: filteredData.map(r => r.fieldSize - (r.multiClass ? r.classPosition : r.startPosition)),
-                            backgroundColor: 'rgba(100, 100, 100, 0.3)',
-                            borderColor: '#666'
+                            backgroundColor: 'rgba(70, 0, 150, 0.4)',
+                            borderColor: '#460096'
                         }
                     ]
                 },
@@ -2412,7 +2412,7 @@
                     responsive: true,
                     maintainAspectRatio: false,
                     plugins: {
-                        legend: { labels: { color: '#e4e4e4' } },
+                        legend: { labels: { color: '#F8FBF4' } },
                         tooltip: {
                             callbacks: {
                                 afterTitle: (ctx) => filteredData[ctx[0].dataIndex].multiClass ? '(Multi-Class)' : ''
@@ -2420,8 +2420,8 @@
                         }
                     },
                     scales: {
-                        x: { stacked: true, grid: { color: 'rgba(255, 255, 255, 0.1)' }, ticks: { color: '#a0a0a0', maxTicksLimit: 10 } },
-                        y: { stacked: true, reverse: true, grid: { color: 'rgba(255, 255, 255, 0.1)' }, ticks: { color: '#a0a0a0' } }
+                        x: { stacked: true, grid: { color: 'rgba(138, 75, 236, 0.2)' }, ticks: { color: '#C2C2C2', maxTicksLimit: 10 } },
+                        y: { stacked: true, reverse: true, grid: { color: 'rgba(138, 75, 236, 0.2)' }, ticks: { color: '#C2C2C2' } }
                     }
                 }
             });
@@ -2440,15 +2440,15 @@
                             backgroundColor: filteredData.map(r => {
                                 if (r.dnf === 'DQ') return 'rgba(239, 68, 68, 0.8)';
                                 if (r.dnf === 'DNF') return 'rgba(251, 146, 60, 0.8)';
-                                return 'rgba(102, 126, 234, 0.8)';
+                                return 'rgba(143, 19, 253, 0.8)';
                             }),
-                            borderColor: '#667eea'
+                            borderColor: '#8F13FD'
                         },
                         {
                             label: 'Remaining Field',
                             data: filteredData.map(r => r.fieldSize - (r.multiClass ? r.classPosition : r.position)),
-                            backgroundColor: 'rgba(100, 100, 100, 0.3)',
-                            borderColor: '#666'
+                            backgroundColor: 'rgba(70, 0, 150, 0.4)',
+                            borderColor: '#460096'
                         }
                     ]
                 },
@@ -2456,7 +2456,7 @@
                     responsive: true,
                     maintainAspectRatio: false,
                     plugins: {
-                        legend: { labels: { color: '#e4e4e4' } },
+                        legend: { labels: { color: '#F8FBF4' } },
                         tooltip: {
                             callbacks: {
                                 afterTitle: (ctx) => {
@@ -2470,8 +2470,8 @@
                         }
                     },
                     scales: {
-                        x: { stacked: true, grid: { color: 'rgba(255, 255, 255, 0.1)' }, ticks: { color: '#a0a0a0', maxTicksLimit: 10 } },
-                        y: { stacked: true, reverse: true, grid: { color: 'rgba(255, 255, 255, 0.1)' }, ticks: { color: '#a0a0a0' } }
+                        x: { stacked: true, grid: { color: 'rgba(138, 75, 236, 0.2)' }, ticks: { color: '#C2C2C2', maxTicksLimit: 10 } },
+                        y: { stacked: true, reverse: true, grid: { color: 'rgba(138, 75, 236, 0.2)' }, ticks: { color: '#C2C2C2' } }
                     }
                 }
             });
@@ -2488,7 +2488,7 @@
                         data: filteredData.map(r => r.startPosition - r.position),
                         backgroundColor: filteredData.map(r => {
                             const change = r.startPosition - r.position;
-                            return change > 0 ? 'rgba(74, 222, 128, 0.8)' : change < 0 ? 'rgba(248, 113, 113, 0.8)' : 'rgba(156, 163, 175, 0.8)';
+                            return change > 0 ? 'rgba(181, 229, 29, 0.8)' : change < 0 ? 'rgba(248, 113, 113, 0.8)' : 'rgba(194, 194, 194, 0.8)';
                         })
                     }]
                 },
@@ -2498,11 +2498,11 @@
                     plugins: { legend: { display: false } },
                     scales: {
                         y: {
-                            grid: { color: 'rgba(255, 255, 255, 0.1)' },
-                            ticks: { color: '#a0a0a0' },
-                            title: { display: true, text: 'Positions Gained/Lost', color: '#a0a0a0' }
+                            grid: { color: 'rgba(138, 75, 236, 0.2)' },
+                            ticks: { color: '#C2C2C2' },
+                            title: { display: true, text: 'Positions Gained/Lost', color: '#C2C2C2' }
                         },
-                        x: { grid: { color: 'rgba(255, 255, 255, 0.1)' }, ticks: { color: '#a0a0a0', maxTicksLimit: 10 } }
+                        x: { grid: { color: 'rgba(138, 75, 236, 0.2)' }, ticks: { color: '#C2C2C2', maxTicksLimit: 10 } }
                     }
                 }
             });
@@ -2520,8 +2520,8 @@
                     labels: topTracks.map(t => t[0]),
                     datasets: [{
                         data: topTracks.map(t => t[1]),
-                        backgroundColor: 'rgba(168, 85, 247, 0.6)',
-                        borderColor: '#a855f7'
+                        backgroundColor: 'rgba(143, 19, 253, 0.6)',
+                        borderColor: '#8F13FD'
                     }]
                 },
                 options: {
@@ -2530,8 +2530,8 @@
                     maintainAspectRatio: false,
                     plugins: { legend: { display: false } },
                     scales: {
-                        y: { grid: { color: 'rgba(255, 255, 255, 0.1)' }, ticks: { color: '#a0a0a0' } },
-                        x: { grid: { color: 'rgba(255, 255, 255, 0.1)' }, ticks: { color: '#a0a0a0' } }
+                        y: { grid: { color: 'rgba(138, 75, 236, 0.2)' }, ticks: { color: '#C2C2C2' } },
+                        x: { grid: { color: 'rgba(138, 75, 236, 0.2)' }, ticks: { color: '#C2C2C2' } }
                     }
                 }
             });
@@ -2549,8 +2549,8 @@
                     labels: topSeries.map(s => s[0]),
                     datasets: [{
                         data: topSeries.map(s => s[1]),
-                        backgroundColor: 'rgba(236, 72, 153, 0.6)',
-                        borderColor: '#ec4899'
+                        backgroundColor: 'rgba(181, 229, 29, 0.6)',
+                        borderColor: '#B5E51D'
                     }]
                 },
                 options: {
@@ -2559,8 +2559,8 @@
                     maintainAspectRatio: false,
                     plugins: { legend: { display: false } },
                     scales: {
-                        y: { grid: { color: 'rgba(255, 255, 255, 0.1)' }, ticks: { color: '#a0a0a0' } },
-                        x: { grid: { color: 'rgba(255, 255, 255, 0.1)' }, ticks: { color: '#a0a0a0' } }
+                        y: { grid: { color: 'rgba(138, 75, 236, 0.2)' }, ticks: { color: '#C2C2C2' } },
+                        x: { grid: { color: 'rgba(138, 75, 236, 0.2)' }, ticks: { color: '#C2C2C2' } }
                     }
                 }
             });
@@ -2585,8 +2585,8 @@
                     labels: podiumRates.map(t => t.track),
                     datasets: [{
                         data: podiumRates.map(t => t.rate),
-                        backgroundColor: 'rgba(251, 191, 36, 0.6)',
-                        borderColor: '#fbbf24'
+                        backgroundColor: 'rgba(181, 229, 29, 0.6)',
+                        borderColor: '#B5E51D'
                     }]
                 },
                 options: {
@@ -2596,11 +2596,11 @@
                     plugins: { legend: { display: false } },
                     scales: {
                         x: {
-                            grid: { color: 'rgba(255, 255, 255, 0.1)' },
-                            ticks: { color: '#a0a0a0', callback: (val) => val + '%' },
-                            title: { display: true, text: 'Podium Rate %', color: '#a0a0a0' }
+                            grid: { color: 'rgba(138, 75, 236, 0.2)' },
+                            ticks: { color: '#C2C2C2', callback: (val) => val + '%' },
+                            title: { display: true, text: 'Podium Rate %', color: '#C2C2C2' }
                         },
-                        y: { grid: { color: 'rgba(255, 255, 255, 0.1)' }, ticks: { color: '#a0a0a0' } }
+                        y: { grid: { color: 'rgba(138, 75, 236, 0.2)' }, ticks: { color: '#C2C2C2' } }
                     }
                 }
             });
@@ -2625,8 +2625,8 @@
                     datasets: [{
                         label: 'Races',
                         data: Object.values(sofRanges),
-                        backgroundColor: 'rgba(139, 92, 246, 0.6)',
-                        borderColor: '#8b5cf6'
+                        backgroundColor: 'rgba(138, 75, 236, 0.6)',
+                        borderColor: '#8A4BEC'
                     }]
                 },
                 options: {
@@ -2635,14 +2635,14 @@
                     plugins: { legend: { display: false } },
                     scales: {
                         y: {
-                            grid: { color: 'rgba(255, 255, 255, 0.1)' },
-                            ticks: { color: '#a0a0a0' },
-                            title: { display: true, text: 'Number of Races', color: '#a0a0a0' }
+                            grid: { color: 'rgba(138, 75, 236, 0.2)' },
+                            ticks: { color: '#C2C2C2' },
+                            title: { display: true, text: 'Number of Races', color: '#C2C2C2' }
                         },
                         x: {
-                            grid: { color: 'rgba(255, 255, 255, 0.1)' },
-                            ticks: { color: '#a0a0a0' },
-                            title: { display: true, text: 'SOF Range', color: '#a0a0a0' }
+                            grid: { color: 'rgba(138, 75, 236, 0.2)' },
+                            ticks: { color: '#C2C2C2' },
+                            title: { display: true, text: 'SOF Range', color: '#C2C2C2' }
                         }
                     }
                 }
@@ -2660,8 +2660,8 @@
                     labels: Array.from({length: 24}, (_, i) => `${i}:00`),
                     datasets: [{
                         data: timeRaces,
-                        backgroundColor: 'rgba(59, 130, 246, 0.6)',
-                        borderColor: '#3b82f6'
+                        backgroundColor: 'rgba(143, 19, 253, 0.6)',
+                        borderColor: '#8F13FD'
                     }]
                 },
                 options: {
@@ -2670,11 +2670,11 @@
                     plugins: { legend: { display: false } },
                     scales: {
                         y: {
-                            grid: { color: 'rgba(255, 255, 255, 0.1)' },
-                            ticks: { color: '#a0a0a0' },
-                            title: { display: true, text: 'Races', color: '#a0a0a0' }
+                            grid: { color: 'rgba(138, 75, 236, 0.2)' },
+                            ticks: { color: '#C2C2C2' },
+                            title: { display: true, text: 'Races', color: '#C2C2C2' }
                         },
-                        x: { grid: { color: 'rgba(255, 255, 255, 0.1)' }, ticks: { color: '#a0a0a0', maxTicksLimit: 12 } }
+                        x: { grid: { color: 'rgba(138, 75, 236, 0.2)' }, ticks: { color: '#C2C2C2', maxTicksLimit: 12 } }
                     }
                 }
             });
@@ -2696,9 +2696,9 @@
                     datasets: [{
                         data: avgByTime,
                         backgroundColor: avgByTime.map(v => {
-                            if (v === null) return 'rgba(100, 100, 100, 0.3)';
-                            if (v <= 5) return 'rgba(74, 222, 128, 0.6)';
-                            if (v <= 10) return 'rgba(251, 191, 36, 0.6)';
+                            if (v === null) return 'rgba(70, 0, 150, 0.3)';
+                            if (v <= 5) return 'rgba(181, 229, 29, 0.6)';
+                            if (v <= 10) return 'rgba(138, 75, 236, 0.6)';
                             return 'rgba(248, 113, 113, 0.6)';
                         })
                     }]
@@ -2710,11 +2710,11 @@
                     scales: {
                         y: {
                             reverse: true,
-                            grid: { color: 'rgba(255, 255, 255, 0.1)' },
-                            ticks: { color: '#a0a0a0' },
-                            title: { display: true, text: 'Avg Finish Position', color: '#a0a0a0' }
+                            grid: { color: 'rgba(138, 75, 236, 0.2)' },
+                            ticks: { color: '#C2C2C2' },
+                            title: { display: true, text: 'Avg Finish Position', color: '#C2C2C2' }
                         },
-                        x: { grid: { color: 'rgba(255, 255, 255, 0.1)' }, ticks: { color: '#a0a0a0', maxTicksLimit: 12 } }
+                        x: { grid: { color: 'rgba(138, 75, 236, 0.2)' }, ticks: { color: '#C2C2C2', maxTicksLimit: 12 } }
                     }
                 }
             });
@@ -2741,8 +2741,8 @@
                     datasets: [{
                         label: 'Position Std Dev',
                         data: consistency,
-                        borderColor: '#a855f7',
-                        backgroundColor: 'rgba(168, 85, 247, 0.1)',
+                        borderColor: '#8A4BEC',
+                        backgroundColor: 'rgba(138, 75, 236, 0.15)',
                         tension: 0.4,
                         fill: true
                     }]
@@ -2761,11 +2761,11 @@
                     scales: {
                         y: {
                             reverse: true,
-                            grid: { color: 'rgba(255, 255, 255, 0.1)' },
-                            ticks: { color: '#a0a0a0' },
-                            title: { display: true, text: 'Position Variability', color: '#a0a0a0' }
+                            grid: { color: 'rgba(138, 75, 236, 0.2)' },
+                            ticks: { color: '#C2C2C2' },
+                            title: { display: true, text: 'Position Variability', color: '#C2C2C2' }
                         },
-                        x: { grid: { color: 'rgba(255, 255, 255, 0.1)' }, ticks: { color: '#a0a0a0', maxTicksLimit: 10 } }
+                        x: { grid: { color: 'rgba(138, 75, 236, 0.2)' }, ticks: { color: '#C2C2C2', maxTicksLimit: 10 } }
                     }
                 }
             });
@@ -2787,7 +2787,7 @@
                         {
                             label: 'Wins',
                             data: h2hData.map(d => d.wins),
-                            backgroundColor: 'rgba(74, 222, 128, 0.6)'
+                            backgroundColor: 'rgba(181, 229, 29, 0.6)'
                         },
                         {
                             label: 'Losses',
@@ -2800,10 +2800,10 @@
                     indexAxis: 'y',
                     responsive: true,
                     maintainAspectRatio: false,
-                    plugins: { legend: { labels: { color: '#e4e4e4' } } },
+                    plugins: { legend: { labels: { color: '#F8FBF4' } } },
                     scales: {
-                        x: { grid: { color: 'rgba(255, 255, 255, 0.1)' }, ticks: { color: '#a0a0a0' } },
-                        y: { grid: { color: 'rgba(255, 255, 255, 0.1)' }, ticks: { color: '#a0a0a0' } }
+                        x: { grid: { color: 'rgba(138, 75, 236, 0.2)' }, ticks: { color: '#C2C2C2' } },
+                        y: { grid: { color: 'rgba(138, 75, 236, 0.2)' }, ticks: { color: '#C2C2C2' } }
                     }
                 }
             });
@@ -2828,8 +2828,8 @@
                     datasets: [{
                         label: 'Avg iRating Change',
                         data: volatility,
-                        borderColor: '#f59e0b',
-                        backgroundColor: 'rgba(245, 158, 11, 0.1)',
+                        borderColor: '#B5E51D',
+                        backgroundColor: 'rgba(181, 229, 29, 0.15)',
                         tension: 0.4,
                         fill: true
                     }]
@@ -2840,11 +2840,11 @@
                     plugins: { legend: { display: false } },
                     scales: {
                         y: {
-                            grid: { color: 'rgba(255, 255, 255, 0.1)' },
-                            ticks: { color: '#a0a0a0' },
-                            title: { display: true, text: 'Avg |iR Change|', color: '#a0a0a0' }
+                            grid: { color: 'rgba(138, 75, 236, 0.2)' },
+                            ticks: { color: '#C2C2C2' },
+                            title: { display: true, text: 'Avg |iR Change|', color: '#C2C2C2' }
                         },
-                        x: { grid: { color: 'rgba(255, 255, 255, 0.1)' }, ticks: { color: '#a0a0a0', maxTicksLimit: 10 } }
+                        x: { grid: { color: 'rgba(138, 75, 236, 0.2)' }, ticks: { color: '#C2C2C2', maxTicksLimit: 10 } }
                     }
                 }
             });
@@ -2874,7 +2874,7 @@
                 .sort((a, b) => b[1].dataPoints.length - a[1].dataPoints.length)
                 .slice(0, 5);
 
-            const colors = ['#667eea', '#4ade80', '#f59e0b', '#ec4899', '#06b6d4'];
+            const colors = ['#8F13FD', '#B5E51D', '#8A4BEC', '#460096', '#C2C2C2'];
 
             const datasets = validCombos.map(([comboKey, data], index) => {
                 const chartData = Array(filteredData.length).fill(null);
@@ -2898,7 +2898,7 @@
 
             if (datasets.length === 0) {
                 ctx.font = '16px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
-                ctx.fillStyle = '#a0a0a0';
+                ctx.fillStyle = '#C2C2C2';
                 ctx.textAlign = 'center';
                 ctx.fillText('Race the same track/car combo at least 3 times',
                              ctx.canvas.width / 2, ctx.canvas.height / 2 - 10);
@@ -2918,7 +2918,7 @@
                     maintainAspectRatio: false,
                     plugins: {
                         legend: {
-                            labels: { color: '#e4e4e4' },
+                            labels: { color: '#F8FBF4' },
                             display: true
                         },
                         tooltip: {
@@ -2935,20 +2935,20 @@
                     scales: {
                         y: {
                             reverse: true,
-                            grid: { color: 'rgba(255, 255, 255, 0.1)' },
+                            grid: { color: 'rgba(138, 75, 236, 0.2)' },
                             ticks: {
-                                color: '#a0a0a0',
+                                color: '#C2C2C2',
                                 callback: (val) => {
                                     const minutes = Math.floor(val / 60);
                                     const seconds = (val % 60).toFixed(1);
                                     return `${minutes}:${seconds.padStart(4, '0')}`;
                                 }
                             },
-                            title: { display: true, text: 'Lap Time (lower is faster)', color: '#a0a0a0' }
+                            title: { display: true, text: 'Lap Time (lower is faster)', color: '#C2C2C2' }
                         },
                         x: {
-                            grid: { color: 'rgba(255, 255, 255, 0.1)' },
-                            ticks: { color: '#a0a0a0', maxTicksLimit: 10 }
+                            grid: { color: 'rgba(138, 75, 236, 0.2)' },
+                            ticks: { color: '#C2C2C2', maxTicksLimit: 10 }
                         }
                     },
                     interaction: {
@@ -2982,7 +2982,7 @@
                     labels: sortedByIR.map(t => t[0]),
                     datasets: [{
                         data: sortedByIR.map(t => t[1].iRatingChange),
-                        backgroundColor: sortedByIR.map(t => t[1].iRatingChange >= 0 ? 'rgba(74, 222, 128, 0.6)' : 'rgba(248, 113, 113, 0.6)'),
+                        backgroundColor: sortedByIR.map(t => t[1].iRatingChange >= 0 ? 'rgba(181, 229, 29, 0.6)' : 'rgba(248, 113, 113, 0.6)'),
                         barThickness: 16,
                         maxBarThickness: 20
                     }]
@@ -2994,15 +2994,15 @@
                     plugins: { legend: { display: false } },
                     scales: {
                         x: {
-                            grid: { color: 'rgba(255, 255, 255, 0.1)' },
-                            ticks: { color: '#a0a0a0' },
-                            title: { display: true, text: 'Total iRating Change', color: '#a0a0a0' },
+                            grid: { color: 'rgba(138, 75, 236, 0.2)' },
+                            ticks: { color: '#C2C2C2' },
+                            title: { display: true, text: 'Total iRating Change', color: '#C2C2C2' },
                             min: -maxAbsIR,
                             max: maxAbsIR
                         },
                         y: {
-                            grid: { color: 'rgba(255, 255, 255, 0.1)' },
-                            ticks: { color: '#a0a0a0' }
+                            grid: { color: 'rgba(138, 75, 236, 0.2)' },
+                            ticks: { color: '#C2C2C2' }
                         }
                     }
                 }
@@ -3032,7 +3032,7 @@
                     labels: sortedBySR.map(t => t[0]),
                     datasets: [{
                         data: sortedBySR.map(t => t[1].srChange),
-                        backgroundColor: sortedBySR.map(t => t[1].srChange >= 0 ? 'rgba(74, 222, 128, 0.6)' : 'rgba(248, 113, 113, 0.6)'),
+                        backgroundColor: sortedBySR.map(t => t[1].srChange >= 0 ? 'rgba(181, 229, 29, 0.6)' : 'rgba(248, 113, 113, 0.6)'),
                         barThickness: 16,
                         maxBarThickness: 20
                     }]
@@ -3044,15 +3044,15 @@
                     plugins: { legend: { display: false } },
                     scales: {
                         x: {
-                            grid: { color: 'rgba(255, 255, 255, 0.1)' },
-                            ticks: { color: '#a0a0a0' },
-                            title: { display: true, text: 'Total Safety Rating Change', color: '#a0a0a0' },
+                            grid: { color: 'rgba(138, 75, 236, 0.2)' },
+                            ticks: { color: '#C2C2C2' },
+                            title: { display: true, text: 'Total Safety Rating Change', color: '#C2C2C2' },
                             min: -maxAbsSR,
                             max: maxAbsSR
                         },
                         y: {
-                            grid: { color: 'rgba(255, 255, 255, 0.1)' },
-                            ticks: { color: '#a0a0a0' }
+                            grid: { color: 'rgba(138, 75, 236, 0.2)' },
+                            ticks: { color: '#C2C2C2' }
                         }
                     }
                 }
@@ -3097,8 +3097,8 @@
                     <td>${r.split} of ${r.totalSplits}</td>
                     <td>P${r.startPosition}</td>
                     <td>P${r.position}</td>
-                    <td style="color: ${r.iRatingChange >= 0 ? '#4ade80' : '#f87171'}">${r.iRatingChange >= 0 ? '+' : ''}${r.iRatingChange}</td>
-                    <td style="color: ${r.srChange >= 0 ? '#4ade80' : '#f87171'}">${r.srChange >= 0 ? '+' : ''}${r.srChange.toFixed(2)}</td>
+                    <td style="color: ${r.iRatingChange >= 0 ? '#B5E51D' : '#f87171'}">${r.iRatingChange >= 0 ? '+' : ''}${r.iRatingChange}</td>
+                    <td style="color: ${r.srChange >= 0 ? '#B5E51D' : '#f87171'}">${r.srChange >= 0 ? '+' : ''}${r.srChange.toFixed(2)}</td>
                     <td>${r.incidents}</td>
                     <td>${r.laps}</td>
                     <td>
@@ -3155,7 +3155,7 @@
                         </thead>
                         <tbody>
                             ${participants.map(p => `
-                                <tr style="${p.isUser ? 'background: rgba(102, 126, 234, 0.2);' : ''}">
+                                <tr style="${p.isUser ? 'background: rgba(143, 19, 253, 0.3);' : ''}">
                                     <td>${p.position}</td>
                                     <td>${p.name}</td>
                                     <td><span class="country-flag" title="${countryNames[p.countryCode]}">${countryFlags[p.countryCode]}</span></td>

@@ -1,0 +1,1913 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iRacing Stats Tracker</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+<style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); color: #e4e4e4; padding: 20px; min-height: 100vh; }
+        .container { max-width: 1600px; margin: 0 auto; }
+        /* ... all your existing styles ... */
+        .best-lap-time { color: #a855f7; font-weight: 700; }
+        
+        /* NEW STYLES - ALREADY ADDED ✓ */
+        .filter-group select[multiple] {
+            height: auto !important;
+            padding: 4px;
+        }
+
+        .filter-group select option {
+            padding: 6px 10px;
+            border-radius: 4px;
+            margin: 2px 0;
+        }
+
+        .filter-group select option:hover {
+            background: rgba(102, 126, 234, 0.3);
+        }
+
+        .filter-group select option:checked {
+            background: rgba(102, 126, 234, 0.6);
+            font-weight: 600;
+        }
+
+        .filter-group select option.disabled {
+            color: #666;
+            font-style: italic;
+            background: rgba(100, 100, 100, 0.2);
+        }
+
+        .filter-group select option.no-data {
+            color: #444;
+            text-decoration: line-through;
+        }
+
+        #resetFiltersBtn:hover {
+            background: rgba(239, 68, 68, 0.8);
+            transform: translateY(-1px);
+        }
+
+        .chart-info-btn {
+            display: inline-block;
+            width: 18px;
+            height: 18px;
+            line-height: 18px;
+            text-align: center;
+            background: rgba(102, 126, 234, 0.3);
+            color: #667eea;
+            border-radius: 50%;
+            font-size: 12px;
+            font-weight: bold;
+            cursor: help;
+            margin-left: 8px;
+            position: relative;
+            border: 1px solid rgba(102, 126, 234, 0.5);
+        }
+
+        .chart-info-btn:hover {
+            background: rgba(102, 126, 234, 0.5);
+        }
+
+        .chart-info-tooltip {
+            display: none;
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.95);
+            color: white;
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-size: 13px;
+            white-space: nowrap;
+            z-index: 1000;
+            margin-bottom: 8px;
+            border: 1px solid rgba(102, 126, 234, 0.5);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+        }
+
+        .chart-info-tooltip::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 6px solid transparent;
+            border-top-color: rgba(0, 0, 0, 0.95);
+        }
+
+        .chart-info-btn:hover .chart-info-tooltip {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-left">
+                <h1>🏁 iRacing Stats Tracker</h1>
+                <p>Personal racing statistics and analytics</p>
+            </div>
+            <div class="header-right">
+                <div class="driver-name">Tim Milne</div>
+                <div class="member-since">Member since March 2019</div>
+            </div>
+        </header>
+        
+        <div id="authSection" class="auth-section">
+            <h2>Welcome to Your iRacing Stats Tracker</h2>
+            <p style="margin: 20px 0; color: #a0a0a0;">Connect your iRacing account to view your statistics</p>
+            <button id="loadDemoBtn">Load Demo Data</button>
+        </div>
+        
+        <div id="mainContent" style="display: none;">
+            <div class="license-summary" id="licenseSummary"></div>
+            
+            <div id="recentHighlights" class="highlights-section"></div>
+            
+<div class="filters">
+    <div class="filter-group">
+        <label>Date From</label>
+        <input type="date" id="dateFrom">
+    </div>
+    <div class="filter-group">
+        <label>Date To</label>
+        <input type="date" id="dateTo">
+    </div>
+    <div class="filter-group">
+        <label>Category</label>
+        <select id="categoryFilter" multiple size="6">
+            <option value="">All Categories</option>
+        </select>
+    </div>
+    <div class="filter-group">
+        <label>Series</label>
+        <select id="seriesFilter" multiple size="6">
+            <option value="">All Series</option>
+        </select>
+    </div>
+    <div class="filter-group">
+        <label>Track</label>
+        <select id="trackFilter" multiple size="6">
+            <option value="">All Tracks</option>
+        </select>
+    </div>
+    <div class="filter-group">
+        <label>Car</label>
+        <select id="carFilter" multiple size="6">
+            <option value="">All Cars</option>
+        </select>
+    </div>
+    <div class="filter-group">
+        <label>Race Type</label>
+        <select id="raceTypeFilter">
+            <option value="">All</option>
+            <option value="official">Official</option>
+            <option value="unofficial">Unofficial</option>
+        </select>
+    </div>
+    <div class="filter-group" style="display: flex; align-items: flex-end;">
+        <button id="resetFiltersBtn" style="background: rgba(239, 68, 68, 0.6); color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: 600; transition: all 0.2s; width: 100%;">
+            Reset Filters
+        </button>
+    </div>
+</div>
+
+            
+            <div>
+                <div class="stats-section-title">
+                    📊 Race Stats
+                </div>
+                <div class="stats-grid" id="raceStatsGrid"></div>
+            </div>
+            
+            <div>
+                <div class="stats-section-title">
+                    🏎️ Driving Stats
+                </div>
+                <div class="stats-grid" id="drivingStatsGrid"></div>
+            </div>
+            
+            <div class="charts-section">
+                <div class="chart-card"><div class="chart-title">iRating Over Time</div><div class="chart-container"><canvas id="iRatingChart"></canvas></div></div>
+                <div class="chart-card"><div class="chart-title">Safety Rating Progression</div><div class="chart-container"><canvas id="safetyRatingChart"></canvas></div></div>
+                <div class="chart-card"><div class="chart-title">Incidents Per Race</div><div class="chart-container"><canvas id="incidentsChart"></canvas></div></div>
+                <div class="chart-card"><div class="chart-title">Finishing Position Distribution</div><div class="chart-container"><canvas id="positionChart"></canvas></div></div>
+                <div class="chart-card"><div class="chart-title">Starting Position Distribution</div><div class="chart-container"><canvas id="startPosChart"></canvas></div></div>
+                <div class="chart-card"><div class="chart-title">Start Position Per Race</div><div class="chart-container"><canvas id="startPosRaceChart"></canvas></div></div>
+                <div class="chart-card"><div class="chart-title">Finish Position Per Race</div><div class="chart-container"><canvas id="finishPosRaceChart"></canvas></div></div>
+                <div class="chart-card"><div class="chart-title">Position Change Per Race</div><div class="chart-container"><canvas id="posChangeChart"></canvas></div></div>
+                <div class="chart-card"><div class="chart-title">Favourite Tracks</div><div class="chart-container"><canvas id="favTracksChart"></canvas></div></div>
+                <div class="chart-card"><div class="chart-title">Favourite Series</div><div class="chart-container"><canvas id="favSeriesChart"></canvas></div></div>
+                <div class="chart-card"><div class="chart-title">Podium Rate by Track</div><div class="chart-container"><canvas id="podiumRateChart"></canvas></div></div>
+                <div class="chart-card"><div class="chart-title">SOF Distribution</div><div class="chart-container"><canvas id="sofDistChart"></canvas></div></div>
+                <div class="chart-card"><div class="chart-title">Races by Time of Day</div><div class="chart-container"><canvas id="racesTimeChart"></canvas></div></div>
+                <div class="chart-card"><div class="chart-title">Performance by Time of Day</div><div class="chart-container"><canvas id="perfTimeChart"></canvas></div></div>
+                <div class="chart-card"><div class="chart-title">Finishing Position Consistency</div><div class="chart-container"><canvas id="consistencyChart"></canvas></div></div>
+                <div class="chart-title">Head to Head Record<span class="chart-info-btn">i<span class="chart-info-tooltip">Simulated data for demonstration.<br>Connect to iRacing API for real H2H stats.</span></span></div><div class="chart-container"><canvas id="h2hChart"></canvas></div></div>
+                <div class="chart-card"><div class="chart-title">iRating Volatility</div><div class="chart-container"><canvas id="volatilityChart"></canvas></div></div>
+                <div class="chart-title">Lap Time Improvement<span class="chart-info-btn">i<span class="chart-info-tooltip">Default shows top 5 most-raced combos.<br>Adjust filters for specific combinations.</span></span></div><div class="chart-container"><canvas id="lapTimeChart"></canvas></div></div>
+				
+            </div>
+            
+            <div class="charts-section" style="grid-template-columns: 1fr 1fr;">
+                <div class="chart-card">
+                    <div class="chart-title">Track Performance - iRating Gains/Losses</div>
+                    <div class="chart-container" id="trackIRatingContainer" style="height: 400px;">
+                        <canvas id="trackIRatingChart"></canvas>
+                    </div>
+                </div>
+                <div class="chart-card">
+                    <div class="chart-title">Track Performance - Safety Rating Gains/Losses</div>
+                    <div class="chart-container" id="trackSRContainer" style="height: 400px;">
+                        <canvas id="trackSRChart"></canvas>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="table-section">
+                <h2 style="margin-bottom: 16px;">Race History</h2>
+                <table><thead><tr>
+                    <th class="sortable" data-sort="date">Date</th>
+                    <th class="sortable" data-sort="season">Season</th>
+                    <th class="sortable" data-sort="week">Week</th>
+                    <th class="sortable" data-sort="series">Series</th>
+                    <th class="sortable" data-sort="track">Track</th>
+                    <th class="sortable" data-sort="layout">Layout</th>
+                    <th class="sortable" data-sort="car">Car</th>
+                    <th class="sortable" data-sort="sof">SOF</th>
+                    <th class="sortable" data-sort="split">Split</th>
+                    <th class="sortable" data-sort="startPosition">Start Pos</th>
+                    <th class="sortable" data-sort="position">Finish Pos</th>
+                    <th class="sortable" data-sort="iRatingChange">iRating Δ</th>
+                    <th class="sortable" data-sort="srChange">SR Δ</th>
+                    <th class="sortable" data-sort="incidents">Incidents</th>
+                    <th class="sortable" data-sort="laps">Laps</th>
+                    <th class="no-sort">Actions</th>
+                </tr></thead><tbody id="raceTableBody"></tbody></table>
+            </div>
+        </div>
+    </div>
+    
+    <div id="resultsModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Race Results</h2>
+                <button class="close-btn" id="closeResultsBtn">Close</button>
+            </div>
+            <div id="resultsContent"></div>
+        </div>
+    </div>
+    
+    <div id="trackModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="trackModalTitle">Track Information</h2>
+                <button class="close-btn" id="closeTrackBtn">Close</button>
+            </div>
+            <div id="trackContent"></div>
+        </div>
+    </div>
+    
+    <div id="chartModal" class="modal">
+        <div class="modal-content" style="max-width: 90%; max-height: 90vh;">
+            <div class="modal-header">
+                <h2 id="chartModalTitle">Chart</h2>
+                <button class="close-btn" id="closeChartBtn">Close</button>
+            </div>
+            <div style="height: 70vh; position: relative;">
+                <canvas id="chartModalCanvas"></canvas>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        let raceData = [], filteredData = [], charts = {};
+        const categories = ['Sports Car', 'Formula Car', 'Oval', 'Dirt Oval', 'Dirt Road'];
+        let sortColumn = 'date';
+        let sortDirection = 'desc';
+        
+        const seriesIcons = {
+            'GT3 Fixed': '🏎️',
+            'GT4 Series': '🏁',
+            'Production Car': '🚗',
+            'Formula Vee': '🏎️',
+            'Formula Renault 2.0': '🏎️',
+            'Formula 3': '🏎️',
+            'NASCAR Cup': '🏁',
+            'ARCA Series': '🏁',
+            'Late Models': '🏁',
+            'Rally Cross': '🚙',
+            'Off Road Buggy': '🚙',
+            'Dirt Sprint Cars': '🏁',
+            'Dirt Late Models': '🏁',
+            'Dirt Modifieds': '🏁'
+        };
+        
+        const trackLayouts = {
+            'Watkins Glen': 'Boot',
+            'Road Atlanta': 'Full Course',
+            'Spa': 'Grand Prix',
+            'Suzuka': 'Grand Prix',
+            'Nürburgring': 'GP-Strecke',
+            'Silverstone': 'Grand Prix'
+        };
+        
+        const countryFlags = {
+            'AU': '🇦🇺', 'US': '🇺🇸', 'GB': '🇬🇧', 'DE': '🇩🇪', 'FR': '🇫🇷',
+            'IT': '🇮🇹', 'ES': '🇪🇸', 'NL': '🇳🇱', 'BE': '🇧🇪', 'CA': '🇨🇦'
+        };
+        
+        const countryNames = {
+            'AU': 'Australia', 'US': 'United States', 'GB': 'United Kingdom', 'DE': 'Germany', 'FR': 'France',
+            'IT': 'Italy', 'ES': 'Spain', 'NL': 'Netherlands', 'BE': 'Belgium', 'CA': 'Canada'
+        };
+        
+        const carLogos = {
+            'BMW M4 GT3': '🔵',
+            'Porsche 911 GT3 R': '🟡',
+            'Audi R8 LMS': '🔴',
+            'Mercedes AMG GT3': '⚫'
+        };
+        
+        const trackDatabase = {
+            'Watkins Glen': { length: '3.4 miles', corners: 11, layout: 'Boot', description: 'Historic road course in upstate New York, known for high-speed corners and elevation changes.', lengthKm: 5.47 },
+            'Road Atlanta': { length: '2.54 miles', corners: 12, layout: 'Full Course', description: 'Challenging road course featuring the famous Turn 12 downhill section.', lengthKm: 4.09 },
+            'Spa': { length: '4.35 miles', corners: 19, layout: 'Grand Prix', description: 'One of the most iconic circuits in motorsport, featuring Eau Rouge and Blanchimont.', lengthKm: 7.00 },
+            'Suzuka': { length: '3.61 miles', corners: 18, layout: 'Grand Prix', description: 'Figure-eight layout with technical corners and fast sections.', lengthKm: 5.81 },
+            'Nürburgring': { length: '3.2 miles', corners: 15, layout: 'GP-Strecke', description: 'Modern F1 circuit adjacent to the famous Nordschleife.', lengthKm: 5.15 },
+            'Silverstone': { length: '3.66 miles', corners: 18, layout: 'Grand Prix', description: 'Home of British motorsport with fast, flowing corners.', lengthKm: 5.89 }
+        };
+        
+        document.getElementById('loadDemoBtn').addEventListener('click', loadDemo);
+        document.getElementById('closeResultsBtn').addEventListener('click', () => closeModal('resultsModal'));
+        document.getElementById('closeTrackBtn').addEventListener('click', () => closeModal('trackModal'));
+        document.getElementById('closeChartBtn').addEventListener('click', () => closeModal('chartModal'));
+		document.getElementById('resetFiltersBtn').addEventListener('click', resetFilters);
+        
+        ['dateFrom', 'dateTo', 'categoryFilter', 'seriesFilter', 'trackFilter', 'carFilter', 'raceTypeFilter'].forEach(id => {
+		document.getElementById(id).addEventListener('change', applyFilters);
+		});
+        
+        function loadDemo() {
+            document.getElementById('authSection').innerHTML = '<div class="loading">Loading demo data...</div>';
+            setTimeout(() => {
+                raceData = generateDemoData();
+                filteredData = [...raceData];
+                document.getElementById('authSection').style.display = 'none';
+                document.getElementById('mainContent').style.display = 'block';
+                initializeApp();
+            }, 1000);
+        }
+        
+        function generateDemoData() {
+            const tracks = ['Watkins Glen', 'Road Atlanta', 'Spa', 'Suzuka', 'Nürburgring', 'Silverstone'];
+            const series = { 
+                'Sports Car': ['GT3 Fixed', 'GT4 Series', 'Production Car'], 
+                'Formula Car': ['Formula Vee', 'Formula Renault 2.0', 'Formula 3'],
+                'Oval': ['NASCAR Cup', 'ARCA Series', 'Late Models'], 
+                'Dirt Road': ['Rally Cross', 'Off Road Buggy'], 
+                'Dirt Oval': ['Dirt Sprint Cars', 'Dirt Late Models', 'Dirt Modifieds'] 
+            };
+            const cars = ['BMW M4 GT3', 'Porsche 911 GT3 R', 'Audi R8 LMS'];
+            const data = [];
+            let sportIR = 1500, sportSR = 3.0;
+            let formulaIR = 1400, formulaSR = 2.8;
+            let ovalIR = 1200, ovalSR = 2.5;
+            let dirtOvalIR = 1100, dirtOvalSR = 2.2;
+            let dirtRoadIR = 1300, dirtRoadSR = 2.6;
+            
+            for (let i = 0; i < 150; i++) {
+                const date = new Date('2024-01-01');
+                date.setDate(date.getDate() + (i * 2));
+                
+                let cat;
+                const rand = i % 10;
+                if (rand < 5) cat = 'Sports Car';
+                else if (rand < 7) cat = 'Formula Car';
+                else if (rand < 8) cat = 'Oval';
+                else if (rand < 9) cat = 'Dirt Oval';
+                else cat = 'Dirt Road';
+                
+                const seriesList = series[cat];
+                const startPos = Math.floor(Math.random() * 20) + 1;
+                const posChange = Math.floor((Math.random() - 0.5) * 10);
+                const finishPos = Math.max(1, Math.min(20, startPos + posChange));
+                const incidents = Math.floor(Math.random() * 8);
+                const iRatingChange = Math.floor((Math.random() - 0.5) * 100);
+                const srChange = (Math.random() - 0.4) * 0.5;
+                
+                if (cat === 'Sports Car') {
+                    sportIR += iRatingChange;
+                    sportSR = Math.max(1.0, Math.min(4.99, sportSR + srChange));
+                } else if (cat === 'Formula Car') {
+                    formulaIR += iRatingChange;
+                    formulaSR = Math.max(1.0, Math.min(4.99, formulaSR + srChange));
+                } else if (cat === 'Oval') {
+                    ovalIR += iRatingChange;
+                    ovalSR = Math.max(1.0, Math.min(4.99, ovalSR + srChange));
+                } else if (cat === 'Dirt Oval') {
+                    dirtOvalIR += iRatingChange;
+                    dirtOvalSR = Math.max(1.0, Math.min(4.99, dirtOvalSR + srChange));
+                } else {
+                    dirtRoadIR += iRatingChange;
+                    dirtRoadSR = Math.max(1.0, Math.min(4.99, dirtRoadSR + srChange));
+                }
+                
+                let currentIR, currentSR;
+                if (cat === 'Sports Car') { currentIR = sportIR; currentSR = sportSR; }
+                else if (cat === 'Formula Car') { currentIR = formulaIR; currentSR = formulaSR; }
+                else if (cat === 'Oval') { currentIR = ovalIR; currentSR = ovalSR; }
+                else if (cat === 'Dirt Oval') { currentIR = dirtOvalIR; currentSR = dirtOvalSR; }
+                else { currentIR = dirtRoadIR; currentSR = dirtRoadSR; }
+                
+                data.push({
+                    date, category: cat, series: seriesList[i % seriesList.length], track: tracks[i % 6], car: cars[i % 3],
+                    layout: trackLayouts[tracks[i % 6]],
+                    startPosition: startPos, position: finishPos, fieldSize: 20, 
+                    iRating: Math.round(currentIR), iRatingChange,
+                    safetyRating: parseFloat(currentSR.toFixed(2)), 
+                    srChange: parseFloat(srChange.toFixed(2)),
+                    incidents, laps: Math.floor(Math.random() * 20) + 15, subsessionId: 50000000 + i, official: Math.random() > 0.2,
+                    season: '2024 S' + (Math.floor(i / 30) + 1), week: (i % 12) + 1,
+                    multiClass: Math.random() > 0.7,
+                    dnf: incidents > 15 ? 'DQ' : (Math.random() > 0.9 ? 'DNF' : null),
+                    classPosition: Math.random() > 0.7 ? Math.max(1, finishPos - 3) : finishPos,
+                    sof: Math.round(800 + Math.random() * 2500),
+                    split: Math.floor(Math.random() * 5) + 1,
+                    totalSplits: Math.floor(Math.random() * 8) + 1,
+                    timeOfDay: Math.floor(Math.random() * 24),
+                    dayOfWeek: date.getDay(),
+                    bestLapTime: 90 + Math.random() * 10,
+                    avgLapTime: 92 + Math.random() * 10
+                });
+            }
+            return data;
+        }
+        
+        function initializeApp() {
+            populateFilters();
+            updateLicenseSummary();
+            updateRecentHighlights();
+            updateDashboard();
+            initializeSorting();
+            initializeChartClickHandlers();
+        }
+        
+        function initializeChartClickHandlers() {
+            document.querySelectorAll('.chart-card').forEach(card => {
+                card.addEventListener('click', function(e) {
+                    if (e.target.closest('canvas')) {
+                        const canvas = e.target.closest('canvas');
+                        const title = card.querySelector('.chart-title').textContent;
+                        openChartModal(canvas, title);
+                    }
+                });
+            });
+        }
+        
+        let currentChartModal = null;
+        
+        function openChartModal(sourceCanvas, title) {
+            const modalCanvas = document.getElementById('chartModalCanvas');
+            document.getElementById('chartModalTitle').textContent = title;
+            
+            if (currentChartModal) {
+                currentChartModal.destroy();
+            }
+            
+            const sourceChart = Chart.getChart(sourceCanvas);
+            if (sourceChart) {
+                const ctx = modalCanvas.getContext('2d');
+                currentChartModal = new Chart(ctx, {
+                    type: sourceChart.config.type,
+                    data: JSON.parse(JSON.stringify(sourceChart.config.data)),
+                    options: JSON.parse(JSON.stringify(sourceChart.config.options))
+                });
+            }
+            
+            document.getElementById('chartModal').style.display = 'block';
+        }
+        
+        function initializeSorting() {
+            document.querySelectorAll('th.sortable').forEach(th => {
+                th.addEventListener('click', () => {
+                    const column = th.dataset.sort;
+                    if (sortColumn === column) {
+                        sortDirection = sortDirection === 'asc' ? 'desc' : 'asc';
+                    } else {
+                        sortColumn = column;
+                        sortDirection = column === 'date' ? 'desc' : 'asc';
+                    }
+                    document.querySelectorAll('th.sortable').forEach(h => {
+                        h.classList.remove('sorted-asc', 'sorted-desc');
+                    });
+                    th.classList.add(sortDirection === 'asc' ? 'sorted-asc' : 'sorted-desc');
+                    updateTable();
+                });
+            });
+            document.querySelector('th[data-sort="date"]').classList.add('sorted-desc');
+        }
+        
+        function populateFilters() {
+        const cats = [...new Set(raceData.map(r => r.category))];
+    const catFilter = document.getElementById('categoryFilter');
+    cats.forEach(c => { const o = document.createElement('option'); o.value = c; o.textContent = c; catFilter.appendChild(o); });
+    
+    const sers = [...new Set(raceData.map(r => r.series))].sort();
+    const serFilter = document.getElementById('seriesFilter');
+    sers.forEach(s => { const o = document.createElement('option'); o.value = s; o.textContent = s; serFilter.appendChild(o); });
+    
+    const tracks = [...new Set(raceData.map(r => r.track))].sort();
+    const trackFilter = document.getElementById('trackFilter');
+    tracks.forEach(t => { const o = document.createElement('option'); o.value = t; o.textContent = t; trackFilter.appendChild(o); });
+}
+        
+        function updateLicenseSummary() {
+            const byCategory = {};
+            categories.forEach(cat => {
+                const catRaces = raceData.filter(r => r.category === cat);
+                if (catRaces.length > 0) {
+                    const latest = catRaces[catRaces.length - 1];
+                    byCategory[cat] = { 
+                        license: getLicenseClass(latest.safetyRating), 
+                        iRating: latest.iRating, 
+                        safetyRating: latest.safetyRating 
+                    };
+                }
+            });
+            
+            const getLicenseColor = (license) => {
+                const colors = {
+                    'R': { bg: '#ef4444', letter: '#ff6b6b' },
+                    'D': { bg: '#f97316', letter: '#fb923c' },
+                    'C': { bg: '#eab308', letter: '#fbbf24' },
+                    'B': { bg: '#22c55e', letter: '#4ade80' },
+                    'A': { bg: '#3b82f6', letter: '#60a5fa' },
+                    'P': { bg: '#a855f7', letter: '#c084fc' }
+                };
+                return colors[license] || colors['R'];
+            };
+            
+            const html = Object.keys(byCategory).map(cat => {
+                const data = byCategory[cat];
+                const srProgress = ((data.safetyRating % 1) * 100);
+                const colors = getLicenseColor(data.license);
+                
+                return `
+                <div class="license-card">
+                    <h3>${cat}</h3>
+                    <div class="license-info">
+                        <div class="license-bar-container">
+                            <div class="license-letter" style="color: ${colors.letter}">${data.license}</div>
+                            <div class="license-bar-wrapper">
+                                <div class="license-bar-bg">
+                                    <div class="license-bar-fill" style="width: ${srProgress}%; background: ${colors.bg};">
+                                        ${data.safetyRating.toFixed(2)}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="license-stat-row">
+                            <span class="license-stat-label">iRating</span>
+                            <span class="license-stat-value">${data.iRating}</span>
+                        </div>
+                        <div class="license-stat-row">
+                            <span class="license-stat-label">Safety Rating</span>
+                            <span class="license-stat-value">${data.safetyRating.toFixed(2)}</span>
+                        </div>
+                    </div>
+                </div>
+            `}).join('');
+            
+            document.getElementById('licenseSummary').innerHTML = html;
+        }
+        
+        function getLicenseClass(sr) {
+            if (sr >= 4.0) return 'A';
+            if (sr >= 3.0) return 'B';
+            if (sr >= 2.0) return 'C';
+            if (sr >= 1.0) return 'D';
+            return 'R';
+        }
+        
+        function updateRecentHighlights() {
+            const podiums = raceData.filter(r => r.position <= 3).slice(-5).reverse();
+            
+            const getPositionIcon = (pos) => {
+                if (pos === 1) return '🥇';
+                if (pos === 2) return '🥈';
+                return '🥉';
+            };
+            
+            const html = `
+                <h2>🏆 Recent Highlights</h2>
+                <div class="highlights-grid">
+                    ${podiums.map(p => `
+                        <div class="highlight-card">
+                            <div class="position-icon">${getPositionIcon(p.position)}</div>
+                            <div class="track-name">${p.track}</div>
+                            <div class="details">
+                                ${p.series}<br>
+                                ${p.car}<br>
+                                ${p.date.toLocaleDateString()}
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+            
+            document.getElementById('recentHighlights').innerHTML = html;
+        }
+        
+        function applyFilters() {
+            function applyFilters() {
+    const from = document.getElementById('dateFrom').value;
+    const to = document.getElementById('dateTo').value;
+    const catOptions = Array.from(document.getElementById('categoryFilter').selectedOptions);
+    const serOptions = Array.from(document.getElementById('seriesFilter').selectedOptions);
+    const trackOptions = Array.from(document.getElementById('trackFilter').selectedOptions);
+    const carOptions = Array.from(document.getElementById('carFilter').selectedOptions);
+    const type = document.getElementById('raceTypeFilter').value;
+    
+    // Get selected values (excluding "All" option)
+    const cats = catOptions.map(o => o.value).filter(v => v !== '');
+    const sers = serOptions.map(o => o.value).filter(v => v !== '');
+    const tracks = trackOptions.map(o => o.value).filter(v => v !== '');
+    const cars = carOptions.map(o => o.value).filter(v => v !== '');
+    
+    // Filter data
+    filteredData = raceData.filter(r => {
+        if (from && r.date < new Date(from)) return false;
+        if (to && r.date > new Date(to)) return false;
+        if (cats.length > 0 && !cats.includes(r.category)) return false;
+        if (sers.length > 0 && !sers.includes(r.series)) return false;
+        if (tracks.length > 0 && !tracks.includes(r.track)) return false;
+        if (cars.length > 0 && !cars.includes(r.car)) return false;
+        if (type === 'official' && !r.official) return false;
+        if (type === 'unofficial' && r.official) return false;
+        return true;
+    });
+    
+    // Update smart graying
+    updateFilterAvailability();
+    
+    updateDashboard();
+}
+
+function resetFilters() {
+    document.getElementById('dateFrom').value = '';
+    document.getElementById('dateTo').value = '';
+    document.getElementById('categoryFilter').selectedIndex = -1;
+    document.getElementById('seriesFilter').selectedIndex = -1;
+    document.getElementById('trackFilter').selectedIndex = -1;
+    document.getElementById('carFilter').selectedIndex = -1;
+    document.getElementById('raceTypeFilter').selectedIndex = 0;
+    
+    filteredData = [...raceData];
+    updateFilterAvailability();
+    updateDashboard();
+}
+
+        
+        function updateDashboard() {
+            updateStatCards();
+            updateCharts();
+            updateTable();
+        }
+        
+        function updateStatCards() {
+            const stats = calculateStats(filteredData);
+            const prev = calculatePreviousStats();
+            
+            // Check if single category for iRating/SR calculation
+            const categories = [...new Set(filteredData.map(r => r.category))];
+            const singleCategory = categories.length === 1;
+            
+            const raceStatsHTML = `
+                <div class="stat-card"><div class="stat-label">Total Races</div><div class="stat-value">${stats.totalRaces}</div><div class="stat-change ${getClass(stats.totalRaces - prev.totalRaces)}">${fmt(stats.totalRaces - prev.totalRaces)}</div></div>
+                <div class="stat-card">
+                    <div class="stat-label">
+                        iRating Gained/Lost
+                        ${!singleCategory ? '<span class="tooltip-icon" data-tooltip="Only shows for single category selection">ⓘ</span>' : ''}
+                    </div>
+                    <div class="stat-value">${singleCategory ? (stats.iRatingChange >= 0 ? '+' : '') + stats.iRatingChange : '—'}</div>
+                    <div class="stat-change ${getClass(singleCategory ? stats.iRatingChange - prev.iRatingChange : 0)}">${singleCategory ? fmt(stats.iRatingChange - prev.iRatingChange, true) : ''}</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">
+                        Safety Rating Gained/Lost
+                        ${!singleCategory ? '<span class="tooltip-icon" data-tooltip="Only shows for single category selection">ⓘ</span>' : ''}
+                    </div>
+                    <div class="stat-value">${singleCategory ? (stats.srChange >= 0 ? '+' : '') + stats.srChange.toFixed(2) : '—'}</div>
+                    <div class="stat-change ${getClass(singleCategory ? stats.srChange - prev.srChange : 0)}">${singleCategory ? fmt(stats.srChange - prev.srChange, true) : ''}</div>
+                </div>
+                <div class="stat-card"><div class="stat-label">Wins</div><div class="stat-value">${stats.wins}</div><div class="stat-change ${getClass(stats.wins - prev.wins)}">${fmt(stats.wins - prev.wins)}</div></div>
+                <div class="stat-card"><div class="stat-label">Podiums</div><div class="stat-value">${stats.podiums}</div><div class="stat-change ${getClass(stats.podiums - prev.podiums)}">${fmt(stats.podiums - prev.podiums)}</div></div>
+                <div class="stat-card"><div class="stat-label">Top 5s</div><div class="stat-value">${stats.top5s}</div><div class="stat-change ${getClass(stats.top5s - prev.top5s)}">${fmt(stats.top5s - prev.top5s)}</div></div>
+                <div class="stat-card"><div class="stat-label">Avg Start Pos</div><div class="stat-value">${stats.avgStart.toFixed(1)}</div><div class="stat-change ${getClass(prev.avgStart - stats.avgStart)}">${fmt(stats.avgStart - prev.avgStart, true)}</div></div>
+                <div class="stat-card"><div class="stat-label">Avg Finish</div><div class="stat-value">${stats.avgFinish.toFixed(1)}</div><div class="stat-change ${getClass(prev.avgFinish - stats.avgFinish)}">${fmt(stats.avgFinish - prev.avgFinish, true)}</div></div>
+                <div class="stat-card"><div class="stat-label">Finish %</div><div class="stat-value">${(stats.finishPct || 0).toFixed(1)}%</div><div class="stat-change ${getClass((stats.finishPct || 0) - (prev.finishPct || 0))}">${fmt((stats.finishPct || 0) - (prev.finishPct || 0), true)}%</div></div>
+            `;
+            
+            const drivingStatsHTML = `
+                <div class="stat-card"><div class="stat-label">Cars Driven</div><div class="stat-value">${stats.carsDriven}</div><div class="stat-change ${getClass(stats.carsDriven - prev.carsDriven)}">${fmt(stats.carsDriven - prev.carsDriven)}</div></div>
+                <div class="stat-card"><div class="stat-label">Tracks Driven</div><div class="stat-value">${stats.tracksDriven}</div><div class="stat-change ${getClass(stats.tracksDriven - prev.tracksDriven)}">${fmt(stats.tracksDriven - prev.tracksDriven)}</div></div>
+                <div class="stat-card"><div class="stat-label">Series Driven</div><div class="stat-value">${stats.seriesDriven}</div><div class="stat-change ${getClass(stats.seriesDriven - prev.seriesDriven)}">${fmt(stats.seriesDriven - prev.seriesDriven)}</div></div>
+                <div class="stat-card"><div class="stat-label">Combos Driven</div><div class="stat-value">${stats.combosDriven}</div><div class="stat-change ${getClass(stats.combosDriven - prev.combosDriven)}">${fmt(stats.combosDriven - prev.combosDriven)}</div></div>
+                <div class="stat-card"><div class="stat-label">Distance Driven</div><div class="stat-value">${(stats.distanceKm || 0).toLocaleString()} km</div><div class="stat-change ${getClass((stats.distanceKm || 0) - (prev.distanceKm || 0))}">${fmt((stats.distanceKm || 0) - (prev.distanceKm || 0))} km</div></div>
+                <div class="stat-card"><div class="stat-label">Laps Driven</div><div class="stat-value">${stats.totalLaps.toLocaleString()}</div><div class="stat-change ${getClass(stats.totalLaps - prev.totalLaps)}">${fmt(stats.totalLaps - prev.totalLaps)}</div></div>
+                <div class="stat-card"><div class="stat-label">Avg Incidents</div><div class="stat-value">${stats.avgIncidents.toFixed(1)}</div><div class="stat-change ${getClass(prev.avgIncidents - stats.avgIncidents)}">${fmt(stats.avgIncidents - prev.avgIncidents, true)}</div></div>
+            `;
+            
+            document.getElementById('raceStatsGrid').innerHTML = raceStatsHTML;
+            document.getElementById('drivingStatsGrid').innerHTML = drivingStatsHTML;
+        }
+        
+        function calculateStats(data) {
+            if (!data.length) return { totalRaces: 0, currentIRating: 0, iRatingChange: 0, currentSR: 0, srChange: 0, totalLaps: 0, avgIncidents: 0, wins: 0, podiums: 0, top5s: 0, avgFinish: 0, avgStart: 0 };
+            return {
+                totalRaces: data.length, currentIRating: data[data.length - 1].iRating,
+                iRatingChange: data[data.length - 1].iRating - data[0].iRating,
+                currentSR: data[data.length - 1].safetyRating,
+                srChange: data[data.length - 1].safetyRating - data[0].safetyRating,
+                totalLaps: data.reduce((s, r) => s + r.laps, 0),
+                avgIncidents: data.reduce((s, r) => s + r.incidents, 0) / data.length,
+                wins: data.filter(r => r.position === 1).length,
+                podiums: data.filter(r => r.position <= 3).length,
+                top5s: data.filter(r => r.position <= 5).length,
+                avgFinish: data.reduce((s, r) => s + r.position, 0) / data.length,
+                avgStart: data.reduce((s, r) => s + r.startPosition, 0) / data.length
+            };
+        }
+        
+        function calculatePreviousStats() {
+            const len = filteredData.length;
+            const idx = raceData.indexOf(filteredData[0]);
+            const prevData = raceData.slice(Math.max(0, idx - len), idx);
+            return calculateStats(prevData);
+        }
+        
+        function getClass(v) { return v > 0 ? 'positive' : v < 0 ? 'negative' : 'neutral'; }
+        function fmt(v, s = false) { if (v === 0) return '—'; return (v > 0 ? '+' : '') + v.toFixed(s ? 2 : 0); }
+        
+
+function updateCharts() {
+    // Destroy all existing charts
+    Object.values(charts).forEach(c => c && c.destroy());
+    charts = {};
+    
+    // Call each chart creation function
+    createIRatingChart();
+    createSafetyRatingChart();
+    createIncidentsChart();
+    createPositionDistributionChart();
+    createStartPosDistributionChart();
+    createStartPosPerRaceChart();
+    createFinishPosPerRaceChart();
+    createPositionChangeChart();
+    createFavoriteTracksChart();
+    createFavoriteSeriesChart();
+    createPodiumRateChart();
+    createSOFDistributionChart();
+    createRacesByTimeChart();
+    createPerformanceByTimeChart();
+    createConsistencyChart();
+    createHeadToHeadChart();
+    createVolatilityChart();
+    createLapTimeChart();
+    createTrackIRatingChart();
+    createTrackSRChart();
+}
+
+// ============================================================================
+// INDIVIDUAL CHART CREATION FUNCTIONS
+// ============================================================================
+
+function createIRatingChart() {
+    const ctx = document.getElementById('iRatingChart').getContext('2d');
+    charts.iRating = new Chart(ctx, {
+        type: 'line',
+        data: { 
+            labels: filteredData.map(r => r.date.toLocaleDateString()), 
+            datasets: [{ 
+                data: filteredData.map(r => r.iRating), 
+                borderColor: '#667eea', 
+                backgroundColor: 'rgba(102, 126, 234, 0.1)', 
+                tension: 0.4, 
+                fill: true 
+            }] 
+        },
+        options: { 
+            responsive: true, 
+            maintainAspectRatio: false, 
+            plugins: { legend: { display: false } }, 
+            scales: { 
+                y: { grid: { color: 'rgba(255, 255, 255, 0.1)' }, ticks: { color: '#a0a0a0' } }, 
+                x: { grid: { color: 'rgba(255, 255, 255, 0.1)' }, ticks: { color: '#a0a0a0', maxTicksLimit: 8 } } 
+            } 
+        }
+    });
+}
+
+function createSafetyRatingChart() {
+    const ctx = document.getElementById('safetyRatingChart').getContext('2d');
+    charts.safetyRating = new Chart(ctx, {
+        type: 'line',
+        data: { 
+            labels: filteredData.map(r => r.date.toLocaleDateString()), 
+            datasets: [{ 
+                data: filteredData.map(r => r.safetyRating), 
+                borderColor: '#4ade80', 
+                backgroundColor: 'rgba(74, 222, 128, 0.1)', 
+                tension: 0.4, 
+                fill: true 
+            }] 
+        },
+        options: { 
+            responsive: true, 
+            maintainAspectRatio: false, 
+            plugins: { legend: { display: false } }, 
+            scales: { 
+                y: { grid: { color: 'rgba(255, 255, 255, 0.1)' }, ticks: { color: '#a0a0a0' }, min: 0, max: 5 }, 
+                x: { grid: { color: 'rgba(255, 255, 255, 0.1)' }, ticks: { color: '#a0a0a0', maxTicksLimit: 8 } } 
+            } 
+        }
+    });
+}
+
+function createIncidentsChart() {
+    const ctx = document.getElementById('incidentsChart').getContext('2d');
+    charts.incidents = new Chart(ctx, {
+        type: 'bar',
+        data: { 
+            labels: filteredData.map(r => r.date.toLocaleDateString()), 
+            datasets: [{ 
+                data: filteredData.map(r => r.incidents), 
+                backgroundColor: filteredData.map(r => {
+                    if (r.dnf === 'DQ') return 'rgba(239, 68, 68, 0.8)';
+                    if (r.dnf === 'DNF') return 'rgba(251, 146, 60, 0.8)';
+                    return 'rgba(248, 113, 113, 0.6)';
+                }),
+                borderColor: '#f87171' 
+            }] 
+        },
+        options: { 
+            responsive: true, 
+            maintainAspectRatio: false, 
+            plugins: { legend: { display: false } }, 
+            scales: { 
+                y: { grid: { color: 'rgba(255, 255, 255, 0.1)' }, ticks: { color: '#a0a0a0' } }, 
+                x: { grid: { color: 'rgba(255, 255, 255, 0.1)' }, ticks: { color: '#a0a0a0', maxTicksLimit: 8 } } 
+            } 
+        }
+    });
+}
+
+function createPositionDistributionChart() {
+    const posCounts = {};
+    filteredData.forEach(r => posCounts[r.position] = (posCounts[r.position] || 0) + 1);
+    
+    const ctx = document.getElementById('positionChart').getContext('2d');
+    charts.position = new Chart(ctx, {
+        type: 'bar',
+        data: { 
+            labels: Object.keys(posCounts).sort((a, b) => a - b), 
+            datasets: [{ 
+                data: Object.keys(posCounts).sort((a, b) => a - b).map(k => posCounts[k]), 
+                backgroundColor: 'rgba(102, 126, 234, 0.6)', 
+                borderColor: '#667eea' 
+            }] 
+        },
+        options: { 
+            responsive: true, 
+            maintainAspectRatio: false, 
+            plugins: { legend: { display: false } }, 
+            scales: { 
+                y: { grid: { color: 'rgba(255, 255, 255, 0.1)' }, ticks: { color: '#a0a0a0' } }, 
+                x: { grid: { color: 'rgba(255, 255, 255, 0.1)' }, ticks: { color: '#a0a0a0' } } 
+            } 
+        }
+    });
+}
+
+function createStartPosDistributionChart() {
+    const startCounts = {};
+    filteredData.forEach(r => startCounts[r.startPosition] = (startCounts[r.startPosition] || 0) + 1);
+    
+    const ctx = document.getElementById('startPosChart').getContext('2d');
+    charts.startPos = new Chart(ctx, {
+        type: 'bar',
+        data: { 
+            labels: Object.keys(startCounts).sort((a, b) => a - b), 
+            datasets: [{ 
+                data: Object.keys(startCounts).sort((a, b) => a - b).map(k => startCounts[k]), 
+                backgroundColor: 'rgba(251, 191, 36, 0.6)', 
+                borderColor: '#fbbf24' 
+            }] 
+        },
+        options: { 
+            responsive: true, 
+            maintainAspectRatio: false, 
+            plugins: { legend: { display: false } }, 
+            scales: { 
+                y: { grid: { color: 'rgba(255, 255, 255, 0.1)' }, ticks: { color: '#a0a0a0' } }, 
+                x: { grid: { color: 'rgba(255, 255, 255, 0.1)' }, ticks: { color: '#a0a0a0' } } 
+            } 
+        }
+    });
+}
+
+function createStartPosPerRaceChart() {
+    const ctx = document.getElementById('startPosRaceChart').getContext('2d');
+    charts.startPosRace = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: filteredData.map((r, i) => r.multiClass ? `R${i+1}*` : `R${i+1}`),
+            datasets: [
+                {
+                    label: 'Position',
+                    data: filteredData.map(r => r.multiClass ? r.classPosition : r.startPosition),
+                    backgroundColor: 'rgba(251, 191, 36, 0.8)',
+                    borderColor: '#fbbf24'
+                },
+                {
+                    label: 'Remaining Field',
+                    data: filteredData.map(r => r.fieldSize - (r.multiClass ? r.classPosition : r.startPosition)),
+                    backgroundColor: 'rgba(100, 100, 100, 0.3)',
+                    borderColor: '#666'
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { 
+                legend: { labels: { color: '#e4e4e4' } },
+                tooltip: {
+                    callbacks: {
+                        afterTitle: (ctx) => filteredData[ctx[0].dataIndex].multiClass ? '(Multi-Class)' : ''
+                    }
+                }
+            },
+            scales: {
+                x: { stacked: true, grid: { color: 'rgba(255, 255, 255, 0.1)' }, ticks: { color: '#a0a0a0', maxTicksLimit: 10 } },
+                y: { stacked: true, reverse: true, grid: { color: 'rgba(255, 255, 255, 0.1)' }, ticks: { color: '#a0a0a0' } }
+            }
+        }
+    });
+}
+
+function createFinishPosPerRaceChart() {
+    const ctx = document.getElementById('finishPosRaceChart').getContext('2d');
+    charts.finishPosRace = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: filteredData.map((r, i) => r.multiClass ? `R${i+1}*` : `R${i+1}`),
+            datasets: [
+                {
+                    label: 'Position',
+                    data: filteredData.map(r => r.multiClass ? r.classPosition : r.position),
+                    backgroundColor: filteredData.map(r => {
+                        if (r.dnf === 'DQ') return 'rgba(239, 68, 68, 0.8)';
+                        if (r.dnf === 'DNF') return 'rgba(251, 146, 60, 0.8)';
+                        return 'rgba(102, 126, 234, 0.8)';
+                    }),
+                    borderColor: '#667eea'
+                },
+                {
+                    label: 'Remaining Field',
+                    data: filteredData.map(r => r.fieldSize - (r.multiClass ? r.classPosition : r.position)),
+                    backgroundColor: 'rgba(100, 100, 100, 0.3)',
+                    borderColor: '#666'
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { 
+                legend: { labels: { color: '#e4e4e4' } },
+                tooltip: {
+                    callbacks: {
+                        afterTitle: (ctx) => {
+                            const race = filteredData[ctx[0].dataIndex];
+                            let text = '';
+                            if (race.multiClass) text += '(Multi-Class) ';
+                            if (race.dnf) text += `[${race.dnf}]`;
+                            return text;
+                        }
+                    }
+                }
+            },
+            scales: {
+                x: { stacked: true, grid: { color: 'rgba(255, 255, 255, 0.1)' }, ticks: { color: '#a0a0a0', maxTicksLimit: 10 } },
+                y: { stacked: true, reverse: true, grid: { color: 'rgba(255, 255, 255, 0.1)' }, ticks: { color: '#a0a0a0' } }
+            }
+        }
+    });
+}
+
+function createPositionChangeChart() {
+    const ctx = document.getElementById('posChangeChart').getContext('2d');
+    charts.posChange = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: filteredData.map((r, i) => `R${i+1}`),
+            datasets: [{
+                label: 'Position Change',
+                data: filteredData.map(r => r.startPosition - r.position),
+                backgroundColor: filteredData.map(r => {
+                    const change = r.startPosition - r.position;
+                    return change > 0 ? 'rgba(74, 222, 128, 0.8)' : change < 0 ? 'rgba(248, 113, 113, 0.8)' : 'rgba(156, 163, 175, 0.8)';
+                })
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: {
+                y: { 
+                    grid: { color: 'rgba(255, 255, 255, 0.1)' }, 
+                    ticks: { color: '#a0a0a0' },
+                    title: { display: true, text: 'Positions Gained/Lost', color: '#a0a0a0' }
+                },
+                x: { grid: { color: 'rgba(255, 255, 255, 0.1)' }, ticks: { color: '#a0a0a0', maxTicksLimit: 10 } }
+            }
+        }
+    });
+}
+
+function createFavoriteTracksChart() {
+    const trackCounts = {};
+    filteredData.forEach(r => trackCounts[r.track] = (trackCounts[r.track] || 0) + 1);
+    const topTracks = Object.entries(trackCounts).sort((a, b) => b[1] - a[1]).slice(0, 8);
+    
+    const ctx = document.getElementById('favTracksChart').getContext('2d');
+    charts.favTracks = new Chart(ctx, {
+        type: 'bar',
+        data: { 
+            labels: topTracks.map(t => t[0]), 
+            datasets: [{ 
+                data: topTracks.map(t => t[1]), 
+                backgroundColor: 'rgba(168, 85, 247, 0.6)', 
+                borderColor: '#a855f7' 
+            }] 
+        },
+        options: { 
+            indexAxis: 'y', 
+            responsive: true, 
+            maintainAspectRatio: false, 
+            plugins: { legend: { display: false } }, 
+            scales: { 
+                y: { grid: { color: 'rgba(255, 255, 255, 0.1)' }, ticks: { color: '#a0a0a0' } }, 
+                x: { grid: { color: 'rgba(255, 255, 255, 0.1)' }, ticks: { color: '#a0a0a0' } } 
+            } 
+        }
+    });
+}
+
+function createFavoriteSeriesChart() {
+    const seriesCounts = {};
+    filteredData.forEach(r => seriesCounts[r.series] = (seriesCounts[r.series] || 0) + 1);
+    const topSeries = Object.entries(seriesCounts).sort((a, b) => b[1] - a[1]).slice(0, 8);
+    
+    const ctx = document.getElementById('favSeriesChart').getContext('2d');
+    charts.favSeries = new Chart(ctx, {
+        type: 'bar',
+        data: { 
+            labels: topSeries.map(s => s[0]), 
+            datasets: [{ 
+                data: topSeries.map(s => s[1]), 
+                backgroundColor: 'rgba(236, 72, 153, 0.6)', 
+                borderColor: '#ec4899' 
+            }] 
+        },
+        options: { 
+            indexAxis: 'y', 
+            responsive: true, 
+            maintainAspectRatio: false, 
+            plugins: { legend: { display: false } }, 
+            scales: { 
+                y: { grid: { color: 'rgba(255, 255, 255, 0.1)' }, ticks: { color: '#a0a0a0' } }, 
+                x: { grid: { color: 'rgba(255, 255, 255, 0.1)' }, ticks: { color: '#a0a0a0' } } 
+            } 
+        }
+    });
+}
+
+function createPodiumRateChart() {
+    const trackPodiums = {};
+    filteredData.forEach(r => {
+        if (!trackPodiums[r.track]) trackPodiums[r.track] = { podiums: 0, total: 0 };
+        trackPodiums[r.track].total++;
+        if (r.position <= 3) trackPodiums[r.track].podiums++;
+    });
+    const podiumRates = Object.entries(trackPodiums)
+        .map(([track, data]) => ({ track, rate: (data.podiums / data.total) * 100 }))
+        .sort((a, b) => b.rate - a.rate)
+        .slice(0, 10);
+    
+    const ctx = document.getElementById('podiumRateChart').getContext('2d');
+    charts.podiumRate = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: podiumRates.map(t => t.track),
+            datasets: [{
+                data: podiumRates.map(t => t.rate),
+                backgroundColor: 'rgba(251, 191, 36, 0.6)',
+                borderColor: '#fbbf24'
+            }]
+        },
+        options: {
+            indexAxis: 'y',
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: {
+                x: { 
+                    grid: { color: 'rgba(255, 255, 255, 0.1)' }, 
+                    ticks: { color: '#a0a0a0', callback: (val) => val + '%' },
+                    title: { display: true, text: 'Podium Rate %', color: '#a0a0a0' }
+                },
+                y: { grid: { color: 'rgba(255, 255, 255, 0.1)' }, ticks: { color: '#a0a0a0' } }
+            }
+        }
+    });
+}
+
+function createSOFDistributionChart() {
+    const sofRanges = { '0-1000': 0, '1000-1500': 0, '1500-2000': 0, '2000-2500': 0, '2500-3000': 0, '3000+': 0 };
+    filteredData.forEach(r => {
+        if (r.sof < 1000) sofRanges['0-1000']++;
+        else if (r.sof < 1500) sofRanges['1000-1500']++;
+        else if (r.sof < 2000) sofRanges['1500-2000']++;
+        else if (r.sof < 2500) sofRanges['2000-2500']++;
+        else if (r.sof < 3000) sofRanges['2500-3000']++;
+        else sofRanges['3000+']++;
+    });
+    
+    const ctx = document.getElementById('sofDistChart').getContext('2d');
+    charts.sofDist = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: Object.keys(sofRanges),
+            datasets: [{
+                label: 'Races',
+                data: Object.values(sofRanges),
+                backgroundColor: 'rgba(139, 92, 246, 0.6)',
+                borderColor: '#8b5cf6'
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: {
+                y: { 
+                    grid: { color: 'rgba(255, 255, 255, 0.1)' }, 
+                    ticks: { color: '#a0a0a0' },
+                    title: { display: true, text: 'Number of Races', color: '#a0a0a0' }
+                },
+                x: { 
+                    grid: { color: 'rgba(255, 255, 255, 0.1)' }, 
+                    ticks: { color: '#a0a0a0' },
+                    title: { display: true, text: 'SOF Range', color: '#a0a0a0' }
+                }
+            }
+        }
+    });
+}
+
+function createRacesByTimeChart() {
+    const timeRaces = Array(24).fill(0);
+    filteredData.forEach(r => timeRaces[r.timeOfDay]++);
+    
+    const ctx = document.getElementById('racesTimeChart').getContext('2d');
+    charts.racesTime = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: Array.from({length: 24}, (_, i) => `${i}:00`),
+            datasets: [{
+                data: timeRaces,
+                backgroundColor: 'rgba(59, 130, 246, 0.6)',
+                borderColor: '#3b82f6'
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: {
+                y: { 
+                    grid: { color: 'rgba(255, 255, 255, 0.1)' }, 
+                    ticks: { color: '#a0a0a0' },
+                    title: { display: true, text: 'Races', color: '#a0a0a0' }
+                },
+                x: { grid: { color: 'rgba(255, 255, 255, 0.1)' }, ticks: { color: '#a0a0a0', maxTicksLimit: 12 } }
+            }
+        }
+    });
+}
+
+function createPerformanceByTimeChart() {
+    const timePerf = Array(24).fill(null).map(() => ({ total: 0, sum: 0 }));
+    filteredData.forEach(r => {
+        timePerf[r.timeOfDay].total++;
+        timePerf[r.timeOfDay].sum += r.position;
+    });
+    const avgByTime = timePerf.map(t => t.total > 0 ? t.sum / t.total : null);
+    
+    const ctx = document.getElementById('perfTimeChart').getContext('2d');
+    charts.perfTime = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: Array.from({length: 24}, (_, i) => `${i}:00`),
+            datasets: [{
+                data: avgByTime,
+                backgroundColor: avgByTime.map(v => {
+                    if (v === null) return 'rgba(100, 100, 100, 0.3)';
+                    if (v <= 5) return 'rgba(74, 222, 128, 0.6)';
+                    if (v <= 10) return 'rgba(251, 191, 36, 0.6)';
+                    return 'rgba(248, 113, 113, 0.6)';
+                })
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: {
+                y: { 
+                    reverse: true,
+                    grid: { color: 'rgba(255, 255, 255, 0.1)' }, 
+                    ticks: { color: '#a0a0a0' },
+                    title: { display: true, text: 'Avg Finish Position', color: '#a0a0a0' }
+                },
+                x: { grid: { color: 'rgba(255, 255, 255, 0.1)' }, ticks: { color: '#a0a0a0', maxTicksLimit: 12 } }
+            }
+        }
+    });
+}
+
+function createConsistencyChart() {
+    // Rolling standard deviation of finishing positions (10-race window)
+    const windowSize = 10;
+    const consistency = [];
+    
+    for (let i = windowSize - 1; i < filteredData.length; i++) {
+        const window = filteredData.slice(i - windowSize + 1, i + 1);
+        const positions = window.map(r => r.position);
+        const avg = positions.reduce((a, b) => a + b, 0) / positions.length;
+        const variance = positions.reduce((sum, pos) => sum + Math.pow(pos - avg, 2), 0) / positions.length;
+        const stdDev = Math.sqrt(variance);
+        consistency.push(stdDev);
+    }
+    
+    const ctx = document.getElementById('consistencyChart').getContext('2d');
+    charts.consistency = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: filteredData.slice(windowSize - 1).map((r, i) => `R${i + windowSize}`),
+            datasets: [{
+                label: 'Position Std Dev',
+                data: consistency,
+                borderColor: '#a855f7',
+                backgroundColor: 'rgba(168, 85, 247, 0.1)',
+                tension: 0.4,
+                fill: true
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { 
+                legend: { display: false },
+                tooltip: {
+                    callbacks: {
+                        label: (ctx) => `Consistency: ${ctx.parsed.y.toFixed(2)} (lower = more consistent)`
+                    }
+                }
+            },
+            scales: {
+                y: { 
+                    reverse: true,
+                    grid: { color: 'rgba(255, 255, 255, 0.1)' }, 
+                    ticks: { color: '#a0a0a0' },
+                    title: { display: true, text: 'Position Variability', color: '#a0a0a0' }
+                },
+                x: { grid: { color: 'rgba(255, 255, 255, 0.1)' }, ticks: { color: '#a0a0a0', maxTicksLimit: 10 } }
+            }
+        }
+    });
+}
+
+function createHeadToHeadChart() {
+    // Simulated head-to-head data
+    const opponents = ['John Smith', 'Sarah Johnson', 'Mike Williams', 'Emma Brown', 'Chris Davis'];
+    const h2hData = opponents.map(() => ({
+        wins: Math.floor(Math.random() * 20),
+        losses: Math.floor(Math.random() * 20)
+    }));
+    
+    const ctx = document.getElementById('h2hChart').getContext('2d');
+    charts.h2h = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: opponents,
+            datasets: [
+                {
+                    label: 'Wins',
+                    data: h2hData.map(d => d.wins),
+                    backgroundColor: 'rgba(74, 222, 128, 0.6)'
+                },
+                {
+                    label: 'Losses',
+                    data: h2hData.map(d => d.losses),
+                    backgroundColor: 'rgba(248, 113, 113, 0.6)'
+                }
+            ]
+        },
+        options: {
+            indexAxis: 'y',
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { labels: { color: '#e4e4e4' } } },
+            scales: {
+                x: { grid: { color: 'rgba(255, 255, 255, 0.1)' }, ticks: { color: '#a0a0a0' } },
+                y: { grid: { color: 'rgba(255, 255, 255, 0.1)' }, ticks: { color: '#a0a0a0' } }
+            }
+        }
+    });
+}
+
+function createVolatilityChart() {
+    // iRating volatility over time (rolling 10-race window)
+    const windowSize = 10;
+    const volatility = [];
+    
+    for (let i = windowSize - 1; i < filteredData.length; i++) {
+        const window = filteredData.slice(i - windowSize + 1, i + 1);
+        const changes = window.map(r => Math.abs(r.iRatingChange));
+        const avgChange = changes.reduce((a, b) => a + b, 0) / changes.length;
+        volatility.push(avgChange);
+    }
+    
+    const ctx = document.getElementById('volatilityChart').getContext('2d');
+    charts.volatility = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: filteredData.slice(windowSize - 1).map((r, i) => `R${i + windowSize}`),
+            datasets: [{
+                label: 'Avg iRating Change',
+                data: volatility,
+                borderColor: '#f59e0b',
+                backgroundColor: 'rgba(245, 158, 11, 0.1)',
+                tension: 0.4,
+                fill: true
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: {
+                y: { 
+                    grid: { color: 'rgba(255, 255, 255, 0.1)' }, 
+                    ticks: { color: '#a0a0a0' },
+                    title: { display: true, text: 'Avg |iR Change|', color: '#a0a0a0' }
+                },
+                x: { grid: { color: 'rgba(255, 255, 255, 0.1)' }, ticks: { color: '#a0a0a0', maxTicksLimit: 10 } }
+            }
+        }
+    });
+}
+
+// ============================================================================
+// IMPROVED LAP TIME CHART - Replace the createLapTimeChart() function
+// This version shows separate lines for each track/car combination
+// ============================================================================
+
+function createLapTimeChart() {
+    // Group data by track-car combination
+    const combos = {};
+    
+    filteredData.forEach((r, index) => {
+        const comboKey = `${r.track} - ${r.car}`;
+        if (!combos[comboKey]) {
+            combos[comboKey] = {
+                track: r.track,
+                car: r.car,
+                dataPoints: []
+            };
+        }
+        combos[comboKey].dataPoints.push({
+            raceIndex: index,
+            lapTime: r.bestLapTime,
+            date: r.date
+        });
+    });
+    
+    // Only show combos with at least 3 races (to see progression)
+    const validCombos = Object.entries(combos)
+        .filter(([key, data]) => data.dataPoints.length >= 3)
+        .sort((a, b) => b[1].dataPoints.length - a[1].dataPoints.length)
+        .slice(0, 5); // Show top 5 most-raced combos
+    
+    // Generate distinct colors for each combo
+    const colors = [
+        '#667eea', // Purple
+        '#4ade80', // Green
+        '#f59e0b', // Orange
+        '#ec4899', // Pink
+        '#06b6d4'  // Cyan
+    ];
+    
+    // Create datasets for each combo
+    const datasets = validCombos.map(([comboKey, data], index) => {
+        // Create data array with nulls for races not in this combo
+        const chartData = Array(filteredData.length).fill(null);
+        data.dataPoints.forEach(point => {
+            chartData[point.raceIndex] = point.lapTime;
+        });
+        
+        return {
+            label: comboKey,
+            data: chartData,
+            borderColor: colors[index % colors.length],
+            backgroundColor: colors[index % colors.length] + '20', // Add transparency
+            tension: 0.4,
+            spanGaps: true, // Connect points even with null gaps
+            pointRadius: 4,
+            pointHoverRadius: 6
+        };
+    });
+    
+    const ctx = document.getElementById('lapTimeChart').getContext('2d');
+    
+    // If no valid combos (all have < 3 races), show a message
+    if (datasets.length === 0) {
+        ctx.font = '16px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+        ctx.fillStyle = '#a0a0a0';
+        ctx.textAlign = 'center';
+        ctx.fillText('Race the same track/car combo at least 3 times', 
+                     ctx.canvas.width / 2, ctx.canvas.height / 2 - 10);
+        ctx.fillText('to see lap time progression!', 
+                     ctx.canvas.width / 2, ctx.canvas.height / 2 + 10);
+        return;
+    }
+    
+    charts.lapTime = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: filteredData.map((r, i) => `R${i+1}`),
+            datasets: datasets
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { 
+                legend: { 
+                    labels: { color: '#e4e4e4' },
+                    display: true
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            if (context.parsed.y === null) return null;
+                            const minutes = Math.floor(context.parsed.y / 60);
+                            const seconds = (context.parsed.y % 60).toFixed(3);
+                            return `${context.dataset.label}: ${minutes}:${seconds.padStart(6, '0')}`;
+                        }
+                    }
+                }
+            },
+            scales: {
+                y: { 
+                    reverse: true,
+                    grid: { color: 'rgba(255, 255, 255, 0.1)' }, 
+                    ticks: { 
+                        color: '#a0a0a0',
+                        callback: (val) => {
+                            const minutes = Math.floor(val / 60);
+                            const seconds = (val % 60).toFixed(1);
+                            return `${minutes}:${seconds.padStart(4, '0')}`;
+                        }
+                    },
+                    title: { display: true, text: 'Lap Time (lower is faster)', color: '#a0a0a0' }
+                },
+                x: { 
+                    grid: { color: 'rgba(255, 255, 255, 0.1)' }, 
+                    ticks: { color: '#a0a0a0', maxTicksLimit: 10 } 
+                }
+            },
+            interaction: {
+                mode: 'index',
+                intersect: false
+            }
+        }
+    });
+}
+
+// ============================================================================
+// USAGE NOTES:
+// - This chart now shows separate lines for your top 5 most-raced track/car combos
+// - Each combo needs at least 3 races to appear (so you can see progression)
+// - Use the category/track/car filters to focus on specific combinations
+// - The chart automatically shows your 5 most-raced combos
+// - Lines are color-coded and labeled in the legend
+// ============================================================================
+
+function createTrackIRatingChart() {
+    const trackPerf = {};
+    filteredData.forEach(r => {
+        if (!trackPerf[r.track]) trackPerf[r.track] = { iRatingChange: 0, srChange: 0 };
+        trackPerf[r.track].iRatingChange += r.iRatingChange;
+        trackPerf[r.track].srChange += r.srChange;
+    });
+    
+    const sortedByIR = Object.entries(trackPerf).sort((a, b) => b[1].iRatingChange - a[1].iRatingChange);
+    const numTracks = sortedByIR.length;
+    const dynamicHeightIR = Math.max(400, numTracks * 28);
+    document.getElementById('trackIRatingContainer').style.height = dynamicHeightIR + 'px';
+    
+    const irValues = sortedByIR.map(t => t[1].iRatingChange);
+    const maxAbsIR = Math.max(Math.abs(Math.min(...irValues)), Math.abs(Math.max(...irValues)));
+    
+    const ctx = document.getElementById('trackIRatingChart').getContext('2d');
+    charts.trackIRating = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: sortedByIR.map(t => t[0]),
+            datasets: [{
+                data: sortedByIR.map(t => t[1].iRatingChange),
+                backgroundColor: sortedByIR.map(t => t[1].iRatingChange >= 0 ? 'rgba(74, 222, 128, 0.6)' : 'rgba(248, 113, 113, 0.6)'),
+                barThickness: 16,
+                maxBarThickness: 20
+            }]
+        },
+        options: {
+            indexAxis: 'y',
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: {
+                x: { 
+                    grid: { color: 'rgba(255, 255, 255, 0.1)' }, 
+                    ticks: { color: '#a0a0a0' },
+                    title: { display: true, text: 'Total iRating Change', color: '#a0a0a0' },
+                    min: -maxAbsIR,
+                    max: maxAbsIR
+                },
+                y: { 
+                    grid: { color: 'rgba(255, 255, 255, 0.1)' }, 
+                    ticks: { color: '#a0a0a0' }
+                }
+            }
+        }
+    });
+}
+
+function createTrackSRChart() {
+    const trackPerf = {};
+    filteredData.forEach(r => {
+        if (!trackPerf[r.track]) trackPerf[r.track] = { iRatingChange: 0, srChange: 0 };
+        trackPerf[r.track].iRatingChange += r.iRatingChange;
+        trackPerf[r.track].srChange += r.srChange;
+    });
+    
+    const sortedBySR = Object.entries(trackPerf).sort((a, b) => b[1].srChange - a[1].srChange);
+    const numTracks = sortedBySR.length;
+    const dynamicHeightSR = Math.max(400, numTracks * 28);
+    document.getElementById('trackSRContainer').style.height = dynamicHeightSR + 'px';
+    
+    const srValues = sortedBySR.map(t => t[1].srChange);
+    const maxAbsSR = Math.max(Math.abs(Math.min(...srValues)), Math.abs(Math.max(...srValues)));
+    
+    const ctx = document.getElementById('trackSRChart').getContext('2d');
+    charts.trackSR = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: sortedBySR.map(t => t[0]),
+            datasets: [{
+                data: sortedBySR.map(t => t[1].srChange),
+                backgroundColor: sortedBySR.map(t => t[1].srChange >= 0 ? 'rgba(74, 222, 128, 0.6)' : 'rgba(248, 113, 113, 0.6)'),
+                barThickness: 16,
+                maxBarThickness: 20
+            }]
+        },
+        options: {
+            indexAxis: 'y',
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: {
+                x: { 
+                    grid: { color: 'rgba(255, 255, 255, 0.1)' }, 
+                    ticks: { color: '#a0a0a0' },
+                    title: { display: true, text: 'Total Safety Rating Change', color: '#a0a0a0' },
+                    min: -maxAbsSR,
+                    max: maxAbsSR
+                },
+                y: { 
+                    grid: { color: 'rgba(255, 255, 255, 0.1)' }, 
+                    ticks: { color: '#a0a0a0' }
+                }
+            }
+        }
+    });
+}
+
+
+function updateFilterAvailability() {
+    const from = document.getElementById('dateFrom').value;
+    const to = document.getElementById('dateTo').value;
+    const catOptions = Array.from(document.getElementById('categoryFilter').selectedOptions);
+    const serOptions = Array.from(document.getElementById('seriesFilter').selectedOptions);
+    const trackOptions = Array.from(document.getElementById('trackFilter').selectedOptions);
+    const carOptions = Array.from(document.getElementById('carFilter').selectedOptions);
+    const type = document.getElementById('raceTypeFilter').value;
+    
+    const cats = catOptions.map(o => o.value).filter(v => v !== '');
+    const sers = serOptions.map(o => o.value).filter(v => v !== '');
+    const tracks = trackOptions.map(o => o.value).filter(v => v !== '');
+    const cars = carOptions.map(o => o.value).filter(v => v !== '');
+    
+    // Get available values based on current filters
+    const getAvailableData = (excludeFilter) => {
+        return raceData.filter(r => {
+            if (from && r.date < new Date(from)) return false;
+            if (to && r.date > new Date(to)) return false;
+            if (excludeFilter !== 'category' && cats.length > 0 && !cats.includes(r.category)) return false;
+            if (excludeFilter !== 'series' && sers.length > 0 && !sers.includes(r.series)) return false;
+            if (excludeFilter !== 'track' && tracks.length > 0 && !tracks.includes(r.track)) return false;
+            if (excludeFilter !== 'car' && cars.length > 0 && !cars.includes(r.car)) return false;
+            if (type === 'official' && !r.official) return false;
+            if (type === 'unofficial' && r.official) return false;
+            return true;
+        });
+    };
+    
+    // Update Series options
+    const availableSeries = new Set(getAvailableData('series').map(r => r.series));
+    const seriesFilter = document.getElementById('seriesFilter');
+    Array.from(seriesFilter.options).forEach(opt => {
+        if (opt.value === '') return; // Skip "All" option
+        if (!availableSeries.has(opt.value)) {
+            opt.classList.add('disabled', 'no-data');
+            opt.disabled = true;
+        } else {
+            opt.classList.remove('disabled', 'no-data');
+            opt.disabled = false;
+        }
+    });
+    // Sort: enabled first, then disabled
+    const seriesOptions = Array.from(seriesFilter.options).slice(1); // Exclude "All"
+    seriesOptions.sort((a, b) => {
+        if (a.disabled === b.disabled) return a.textContent.localeCompare(b.textContent);
+        return a.disabled ? 1 : -1;
+    });
+    seriesFilter.innerHTML = '<option value="">All Series</option>';
+    seriesOptions.forEach(opt => seriesFilter.appendChild(opt));
+    
+    // Update Track options
+    const availableTracks = new Set(getAvailableData('track').map(r => r.track));
+    const trackFilter = document.getElementById('trackFilter');
+    Array.from(trackFilter.options).forEach(opt => {
+        if (opt.value === '') return;
+        if (!availableTracks.has(opt.value)) {
+            opt.classList.add('disabled', 'no-data');
+            opt.disabled = true;
+        } else {
+            opt.classList.remove('disabled', 'no-data');
+            opt.disabled = false;
+        }
+    });
+    const trackOptions = Array.from(trackFilter.options).slice(1);
+    trackOptions.sort((a, b) => {
+        if (a.disabled === b.disabled) return a.textContent.localeCompare(b.textContent);
+        return a.disabled ? 1 : -1;
+    });
+    trackFilter.innerHTML = '<option value="">All Tracks</option>';
+    trackOptions.forEach(opt => trackFilter.appendChild(opt));
+    
+    // Update Car options
+    const availableCars = new Set(getAvailableData('car').map(r => r.car));
+    const carFilter = document.getElementById('carFilter');
+    Array.from(carFilter.options).forEach(opt => {
+        if (opt.value === '') return;
+        if (!availableCars.has(opt.value)) {
+            opt.classList.add('disabled', 'no-data');
+            opt.disabled = true;
+        } else {
+            opt.classList.remove('disabled', 'no-data');
+            opt.disabled = false;
+        }
+    });
+    const carOptions = Array.from(carFilter.options).slice(1);
+    carOptions.sort((a, b) => {
+        if (a.disabled === b.disabled) return a.textContent.localeCompare(b.textContent);
+        return a.disabled ? 1 : -1;
+    });
+    carFilter.innerHTML = '<option value="">All Cars</option>';
+    carOptions.forEach(opt => carFilter.appendChild(opt));
+    
+    // Update Category options
+    const availableCategories = new Set(getAvailableData('category').map(r => r.category));
+    const categoryFilter = document.getElementById('categoryFilter');
+    Array.from(categoryFilter.options).forEach(opt => {
+        if (opt.value === '') return;
+        if (!availableCategories.has(opt.value)) {
+            opt.classList.add('disabled', 'no-data');
+            opt.disabled = true;
+        } else {
+            opt.classList.remove('disabled', 'no-data');
+            opt.disabled = false;
+        }
+    });
+}
+// ============================================================================
+// END OF CHART FUNCTIONS
+// The updateTable() function should come next in your original code
+// ============================================================================
+        
+        function updateTable() {
+            const tbody = document.getElementById('raceTableBody');
+            
+            const sortedData = [...filteredData].sort((a, b) => {
+                let aVal = a[sortColumn];
+                let bVal = b[sortColumn];
+                
+                if (sortColumn === 'date') {
+                    aVal = a.date.getTime();
+                    bVal = b.date.getTime();
+                }
+                
+                if (aVal < bVal) return sortDirection === 'asc' ? -1 : 1;
+                if (aVal > bVal) return sortDirection === 'asc' ? 1 : -1;
+                return 0;
+            });
+            
+            tbody.innerHTML = sortedData.map((r, idx) => `
+                <tr>
+                    <td>${r.date.toLocaleDateString()}</td>
+                    <td>${r.season}</td>
+                    <td>W${r.week}</td>
+                    <td><span class="series-icon">${seriesIcons[r.series] || '🏁'}</span> ${r.series}</td>
+                    <td>${r.track}</td>
+                    <td>${r.layout}</td>
+                    <td>${r.car}</td>
+                    <td>${r.sof}</td>
+                    <td>Split ${r.split} (${r.totalSplits})</td>
+                    <td>P${r.startPosition}</td>
+                    <td>P${r.position}</td>
+                    <td style="color: ${r.iRatingChange >= 0 ? '#4ade80' : '#f87171'}">${r.iRatingChange >= 0 ? '+' : ''}${r.iRatingChange}</td>
+                    <td style="color: ${r.srChange >= 0 ? '#4ade80' : '#f87171'}">${r.srChange >= 0 ? '+' : ''}${r.srChange.toFixed(2)}</td>
+                    <td>${r.incidents}</td>
+                    <td>${r.laps}</td>
+                    <td><div class="action-links">
+                        <a href="https://members.iracing.com/membersite/member/EventResult.do?subsessionid=${r.subsessionId}" target="_blank">iRacing</a>
+                        <a href="https://garage61.net/search?q=${r.subsessionId}" target="_blank">G61</a>
+                        <button onclick="showResults(${sortedData.findIndex(sr => sr === r)})">Results</button>
+                        <button onclick="showTrack('${r.track}')">Track</button>
+                    </div></td>
+                </tr>
+            `).join('');
+        }
+        
+        function showResults(idx) {
+            const sortedData = [...filteredData].sort((a, b) => {
+                let aVal = a[sortColumn];
+                let bVal = b[sortColumn];
+                if (sortColumn === 'date') {
+                    aVal = a.date.getTime();
+                    bVal = b.date.getTime();
+                }
+                if (aVal < bVal) return sortDirection === 'asc' ? -1 : 1;
+                if (aVal > bVal) return sortDirection === 'asc' ? 1 : -1;
+                return 0;
+            });
+            
+            const race = sortedData[idx];
+            const participants = generateRaceResults(race);
+            
+            const bestLapTime = Math.min(...participants.map(p => parseFloat(p.bestLapRaw)));
+            
+            const html = `
+                <h3>${race.series} - ${race.track}</h3>
+                <p style="color: #a0a0a0; margin-bottom: 20px;">${race.date.toLocaleDateString()} - ${race.season} Week ${race.week}</p>
+                <div class="results-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Pos</th>
+                                <th>Name</th>
+                                <th>Country</th>
+                                <th>Car</th>
+                                <th>Laps</th>
+                                <th>Laps Led</th>
+                                <th>Best Lap</th>
+                                <th>Avg Lap</th>
+                                <th>Incidents</th>
+                                <th>iRating Δ</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${participants.map(p => `
+                                <tr style="${p.isUser ? 'background: rgba(102, 126, 234, 0.2);' : ''}">
+                                    <td>${p.position}</td>
+                                    <td>${p.name}</td>
+                                    <td><span class="country-flag" title="${countryNames[p.countryCode]}">${countryFlags[p.countryCode]}</span></td>
+                                    <td><span class="car-logo" title="${p.car}">${carLogos[p.car] || '🏎️'}</span></td>
+                                    <td>${p.laps}</td>
+                                    <td>${p.lapsLed}</td>
+                                    <td><span class="${p.bestLapRaw === bestLapTime ? 'best-lap-time' : ''}">${p.bestLap}</span></td>
+                                    <td>${p.avgLap}</td>
+                                    <td>${p.incidents}</td>
+                                    <td style="color: ${p.iRatingChange >= 0 ? '#4ade80' : '#f87171'}">${p.iRatingChange >= 0 ? '+' : ''}${p.iRatingChange}</td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                </div>
+            `;
+            
+            document.getElementById('resultsContent').innerHTML = html;
+            document.getElementById('resultsModal').style.display = 'block';
+        }
+        
+        function generateRaceResults(race) {
+            const names = ['Tim Milne', 'John Smith', 'Sarah Johnson', 'Mike Williams', 'Emma Brown', 'Chris Davis', 'Anna Miller', 'Tom Wilson', 'Lisa Anderson', 'David Taylor', 'Maria Garcia', 'James Martinez', 'Sophie Robinson', 'Robert Clark', 'Emily Rodriguez', 'Daniel Lewis', 'Olivia Lee', 'Matthew Walker', 'Isabella Hall', 'Andrew Young'];
+            const countries = ['AU', 'US', 'GB', 'DE', 'FR', 'IT', 'ES', 'NL', 'BE', 'CA'];
+            const cars = ['BMW M4 GT3', 'Porsche 911 GT3 R', 'Audi R8 LMS', 'Mercedes AMG GT3'];
+            
+            const results = [];
+            for (let i = 1; i <= race.fieldSize; i++) {
+                const isUser = i === race.position;
+                const bestLapRaw = 95 + Math.random() * 10;
+                const avgLapRaw = 98 + Math.random() * 10;
+                results.push({
+                    position: i,
+                    name: isUser ? 'Tim Milne' : names[i % names.length],
+                    countryCode: isUser ? 'AU' : countries[i % countries.length],
+                    car: cars[i % cars.length],
+                    laps: race.laps,
+                    lapsLed: i === 1 ? Math.floor(race.laps * 0.6) : (i <= 3 ? Math.floor(Math.random() * 5) : 0),
+                    bestLap: `1:${bestLapRaw.toFixed(3)}`,
+                    bestLapRaw: bestLapRaw,
+                    avgLap: `1:${avgLapRaw.toFixed(3)}`,
+                    incidents: Math.floor(Math.random() * 12),
+                    iRatingChange: isUser ? race.iRatingChange : Math.floor((Math.random() - 0.5) * 100),
+                    isUser
+                });
+            }
+            return results;
+        }
+        
+        function showTrack(trackName) {
+            const track = trackDatabase[trackName] || { length: 'Unknown', corners: 0, layout: 'Standard', description: 'No information available.' };
+            
+            const html = `
+                <div class="track-info">
+                    <div>
+                        <h3 style="margin-bottom: 16px;">Track Details</h3>
+                        <div class="track-details">
+                            <div class="track-detail-item"><span>Length:</span><strong>${track.length}</strong></div>
+                            <div class="track-detail-item"><span>Corners:</span><strong>${track.corners}</strong></div>
+                            <div class="track-detail-item"><span>Layout:</span><strong>${track.layout}</strong></div>
+                        </div>
+                        <h3 style="margin: 20px 0 12px 0;">Description</h3>
+                        <p style="color: #a0a0a0; line-height: 1.6;">${track.description}</p>
+                    </div>
+                    <div>
+                        <div class="track-map">
+                            <div style="text-align: center;">
+                                <div style="font-size: 60px; margin-bottom: 10px;">🏁</div>
+                                <div>Track Map</div>
+                                <div style="font-size: 12px; color: #666; margin-top: 8px;">Visualization coming soon</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('trackModalTitle').textContent = trackName;
+            document.getElementById('trackContent').innerHTML = html;
+            document.getElementById('trackModal').style.display = 'block';
+        }
+        
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+        
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>

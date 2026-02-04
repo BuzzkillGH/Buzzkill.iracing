@@ -1,0 +1,25 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git --version:*)",
+      "Bash(gh:*)",
+      "Bash(git config:*)",
+      "Bash(git init:*)",
+      "Bash(git add:*)",
+      "Bash(git commit -m \"$\\(cat <<''EOF''\nInitial commit - Mook Racing Stats Tracker\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
+      "Bash(git remote add:*)",
+      "Bash(git branch:*)",
+      "Bash(git push:*)",
+      "WebFetch(domain:www.iracing.com)",
+      "WebFetch(domain:www.sdk-gaming.co.uk)",
+      "WebFetch(domain:www.stickpng.com)",
+      "Bash(git commit -m \"$\\(cat <<''EOF''\nAdd real car manufacturer logos\n\n- Replace emoji placeholders with actual PNG logos from StickPNG\n- Added logos for: BMW, Porsche, Audi, Mercedes, Ferrari, Lamborghini, McLaren, Aston Martin, Chevrolet, Ford\n- Added getCarManufacturer\\(\\) function to map car names to brands\n- Added getCarLogoHtml\\(\\) function for rendering logos\n- Display logos in race history table and results modal\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
+      "Bash(git commit:*)",
+      "WebFetch(domain:iracingx.com)",
+      "WebFetch(domain:www.irbg.net)",
+      "Bash(curl:*)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:www.irstats.net)"
+    ]
+  }
+}
